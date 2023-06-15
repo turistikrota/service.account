@@ -20,6 +20,11 @@ type MongoPlatform struct {
 	Query      string `env:"MONGO_PLATFORM_QUERY" envDefault:""`
 }
 
+type RSA struct {
+	PrivateKeyFile string `env:"RSA_PRIVATE_KEY"`
+	PublicKeyFile  string `env:"RSA_PUBLIC_KEY"`
+}
+
 type I18n struct {
 	Fallback string   `env:"I18N_FALLBACK_LANGUAGE" envDefault:"en"`
 	Dir      string   `env:"I18N_DIR" envDefault:"./src/locales"`
@@ -101,6 +106,7 @@ type App struct {
 		Account  MongoAccount
 		Platform MongoPlatform
 	}
+	RSA         RSA
 	HttpHeaders HttpHeaders
 	Server      Server
 	Session     Session
