@@ -18,22 +18,21 @@ import (
 type Config struct {
 	App           config.App
 	EventEngine   events.Engine
-	AccountMongo  *mongo.DB
-	PlatformMongo *mongo.DB
+	Mongo  *mongo.DB
 	Validator     *validator.Validator
 	CacheSrv      redis.Service
 }
 
 func NewApplication(config Config) app.Application {
 	accountFactory := account.NewFactory()
-	accountRepo := adapters.Mongo.NewAccount(accountFactory, config.AccountMongo.GetCollection(config.App.DB.Account.Collection))
+	accountRepo := adapters.Mongo.NewAccount(accountFactory, config.Mongo.GetCollection(config.App.DB.Account.Collection))
 	accountEvents := account.NewEvents(account.EventConfig{
 		Topics:    config.App.Topics,
 		Publisher: config.EventEngine,
 	})
 
 	platformFactory := platform.NewFactory()
-	platformRepo := adapters.Mongo.NewPlatform(platformFactory, config.PlatformMongo.GetCollection(config.App.DB.Platform.Collection))
+	platformRepo := adapters.Mongo.NewPlatform(platformFactory, config.Mongo.GetCollection(config.App.DB.Platform.Collection))
 	platformEvents := platform.NewEvents(platform.EventConfig{
 		Topics:    config.App.Topics,
 		Publisher: config.EventEngine,

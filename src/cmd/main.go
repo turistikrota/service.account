@@ -32,8 +32,7 @@ func main() {
 	valid := validator.New(i18n)
 	valid.ConnectCustom()
 	valid.RegisterTagName()
-	accountMongo := loadAccountMongo(cnf)
-	platformMongo := loadPlatformMongo(cnf)
+	mongo := loadMongo(cnf)
 	cache := redis.New(&redis.Config{
 		Host:     cnf.CacheRedis.Host,
 		Port:     cnf.CacheRedis.Port,
@@ -43,8 +42,7 @@ func main() {
 	app := service.NewApplication(service.Config{
 		App:           cnf,
 		EventEngine:   eventEngine,
-		AccountMongo:  accountMongo,
-		PlatformMongo: platformMongo,
+		Mongo:  mongo,
 		Validator:     valid,
 		CacheSrv:      cache,
 	})
@@ -79,7 +77,7 @@ func main() {
 	del.Load()
 }
 
-func loadAccountMongo(cnf config.App) *mongo.DB {
+func loadMongo(cnf config.App) *mongo.DB {
 	uri := mongo.CalcMongoUri(mongo.UriParams{
 		Host:  cnf.DB.Account.Host,
 		Port:  cnf.DB.Account.Port,
@@ -89,22 +87,6 @@ func loadAccountMongo(cnf config.App) *mongo.DB {
 		Query: cnf.DB.Account.Query,
 	})
 	d, err := mongo.New(uri, cnf.DB.Account.Database)
-	if err != nil {
-		panic(err)
-	}
-	return d
-}
-
-func loadPlatformMongo(cnf config.App) *mongo.DB {
-	uri := mongo.CalcMongoUri(mongo.UriParams{
-		Host:  cnf.DB.Platform.Host,
-		Port:  cnf.DB.Platform.Port,
-		User:  cnf.DB.Platform.Username,
-		Pass:  cnf.DB.Platform.Password,
-		Db:    cnf.DB.Platform.Database,
-		Query: cnf.DB.Platform.Query,
-	})
-	d, err := mongo.New(uri, cnf.DB.Platform.Database)
 	if err != nil {
 		panic(err)
 	}

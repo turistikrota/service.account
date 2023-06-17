@@ -11,13 +11,7 @@ type MongoAccount struct {
 }
 
 type MongoPlatform struct {
-	Host       string `env:"MONGO_PLATFORM_HOST" envDefault:"localhost"`
-	Port       string `env:"MONGO_PLATFORM_PORT" envDefault:"27017"`
-	Username   string `env:"MONGO_PLATFORM_USERNAME" envDefault:""`
-	Password   string `env:"MONGO_PLATFORM_PASSWORD" envDefault:""`
-	Database   string `env:"MONGO_PLATFORM_DATABASE" envDefault:"account"`
 	Collection string `env:"MONGO_PLATFORM_COLLECTION" envDefault:"accounts"`
-	Query      string `env:"MONGO_PLATFORM_QUERY" envDefault:""`
 }
 
 type RSA struct {
