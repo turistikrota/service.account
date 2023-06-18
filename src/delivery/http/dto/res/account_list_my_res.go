@@ -1,8 +1,10 @@
 package res
 
 import (
-	"api.turistikrota.com/account/src/app/query"
 	"time"
+
+	"api.turistikrota.com/account/src/app/query"
+	"github.com/turistikrota/service.shared/helper"
 )
 
 type AccountListMyResponse struct {
@@ -10,7 +12,6 @@ type AccountListMyResponse struct {
 	UserCode      string     `json:"userCode"`
 	FullName      string     `json:"fullName"`
 	AvatarURL     string     `json:"avatarUrl"`
-	CoverURL      string     `json:"coverUrl"`
 	Description   string     `json:"description"`
 	IsActive      bool       `json:"isActive"`
 	CompletedRate int        `json:"completedRate"`
@@ -25,10 +26,9 @@ func (r *response) AccountListMy(res *query.AccountListMyResult) []*AccountListM
 			UserName:      account.UserName,
 			UserCode:      account.UserCode,
 			FullName:      account.FullName,
-			AvatarURL:     account.AvatarURL,
-			CoverURL:      account.CoverURL,
 			Description:   account.Description,
 			IsActive:      account.IsActive,
+			AvatarURL:     helper.CDN.DressUser(account.UserName, account.UserCode),
 			CompletedRate: account.CompletedRate,
 			IsVerified:    account.IsVerified,
 			CreatedAt:     account.CreatedAt,

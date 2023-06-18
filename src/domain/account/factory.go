@@ -52,7 +52,7 @@ func (f Factory) FixCode(code string) string {
 func (f Factory) CalcCompletedRate(e *Entity) int {
 	var rate int
 	denominatorCount := 7 // 7 field
-	list := []string{e.UserName, e.FullName, e.AvatarURL, e.CoverURL, e.Description}
+	list := []string{e.UserName, e.FullName, e.Description}
 	if e.BirthDate != nil && e.BirthDate.Year() > 0 {
 		rate += 1
 	}

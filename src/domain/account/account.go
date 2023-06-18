@@ -8,8 +8,6 @@ type Entity struct {
 	UserName      string         `json:"user_name"`
 	UserCode      string         `json:"user_code"`
 	FullName      string         `json:"full_name"`
-	AvatarURL     string         `json:"avatar_url"`
-	CoverURL      string         `json:"cover_url"`
 	Description   string         `json:"description"`
 	Social        []EntitySocial `json:"social"`
 	IsActive      bool           `json:"is_active"`

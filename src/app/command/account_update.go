@@ -16,8 +16,6 @@ type AccountUpdateCommand struct {
 	UserName    string
 	UserCode    string
 	FullName    string
-	AvatarURL   string
-	CoverURL    string
 	Description string
 	BirthDate   *time.Time
 }
@@ -84,8 +82,6 @@ func (h accountUpdateHandler) Handle(ctx context.Context, command AccountUpdateC
 		acc.BirthDate = command.BirthDate
 	}
 	acc.FullName = command.FullName
-	acc.AvatarURL = command.AvatarURL
-	acc.CoverURL = command.CoverURL
 	acc.Description = command.Description
 	acc.CompletedRate = h.factory.CalcCompletedRate(acc)
 	t := time.Now()

@@ -13,8 +13,6 @@ type AccountUpdateRequest struct {
 	AccountName string `json:"accountName,omitempty" validate:"omitempty,max=20,min=3"`
 	AccountCode string `json:"accountCode,omitempty" validate:"omitempty,numeric,gt=0,lte=9999"`
 	FullName    string `json:"fullName" validate:"required,max=70,min=3"`
-	AvatarURL   string `json:"avatarUrl" validate:"required,url"`
-	CoverURL    string `json:"coverUrl" validate:"required,url"`
 	Description string `json:"description" validate:"required,max=1000"`
 	BirthDate   string `json:"birthDate" validate:"required,datetime=2006-01-02"`
 }
@@ -34,8 +32,6 @@ func (r *AccountUpdateRequest) ToCommand(userUUID string) command.AccountUpdateC
 		UserName:    r.AccountName,
 		UserCode:    r.AccountCode,
 		FullName:    r.FullName,
-		AvatarURL:   r.AvatarURL,
-		CoverURL:    r.CoverURL,
 		Description: r.Description,
 		BirthDate:   &birth,
 	}

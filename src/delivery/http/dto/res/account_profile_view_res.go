@@ -1,9 +1,11 @@
 package res
 
 import (
+	"time"
+
 	"api.turistikrota.com/account/src/app/query"
 	"api.turistikrota.com/account/src/domain/account"
-	"time"
+	"github.com/turistikrota/service.shared/helper"
 )
 
 type AccountProfileViewResponse struct {
@@ -11,7 +13,6 @@ type AccountProfileViewResponse struct {
 	UserCode    string                         `json:"userCode"`
 	FullName    string                         `json:"fullName"`
 	AvatarURL   string                         `json:"avatarUrl"`
-	CoverURL    string                         `json:"coverUrl"`
 	Description string                         `json:"description"`
 	Social      []AccountProfileSocialResponse `json:"social"`
 	IsVerified  bool                           `json:"isVerified"`
@@ -28,10 +29,9 @@ func (r *response) AccountProfileView(res *query.AccountProfileViewResult) *Acco
 		UserName:    res.Entity.UserName,
 		UserCode:    res.Entity.UserCode,
 		FullName:    res.Entity.FullName,
-		AvatarURL:   res.Entity.AvatarURL,
-		CoverURL:    res.Entity.CoverURL,
 		Description: res.Entity.Description,
 		Social:      r.AccountProfileSocialResponse(res.Entity.Social),
+		AvatarURL:   helper.CDN.DressUser(res.Entity.UserName, res.Entity.UserCode),
 		IsVerified:  res.Entity.IsVerified,
 		CreatedAt:   res.Entity.CreatedAt,
 	}

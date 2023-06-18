@@ -1,8 +1,9 @@
 package entity
 
 import (
-	"api.turistikrota.com/account/src/domain/account"
 	"time"
+
+	"api.turistikrota.com/account/src/domain/account"
 )
 
 type MongoAccount struct {
@@ -11,8 +12,6 @@ type MongoAccount struct {
 	UserName      string               `bson:"user_name"`
 	UserCode      string               `bson:"user_code"`
 	FullName      string               `bson:"full_name"`
-	AvatarURL     string               `bson:"avatar_url"`
-	CoverURL      string               `bson:"cover_url"`
 	Description   string               `bson:"description"`
 	Social        []MongoAccountSocial `bson:"social"`
 	IsActive      bool                 `bson:"is_active"`
@@ -37,8 +36,6 @@ func (e *MongoAccount) ToEntity() *account.Entity {
 		UserName:      e.UserName,
 		UserCode:      e.UserCode,
 		FullName:      e.FullName,
-		AvatarURL:     e.AvatarURL,
-		CoverURL:      e.CoverURL,
 		Description:   e.Description,
 		Social:        e.ToSocial(),
 		IsActive:      e.IsActive,
@@ -72,8 +69,6 @@ func (e *MongoAccount) FromEntity(entity *account.Entity) *MongoAccount {
 	e.UserName = entity.UserName
 	e.UserCode = entity.UserCode
 	e.FullName = entity.FullName
-	e.AvatarURL = entity.AvatarURL
-	e.CoverURL = entity.CoverURL
 	e.Description = entity.Description
 	e.Social = e.FromSocialEntity(entity.Social)
 	e.IsActive = entity.IsActive
