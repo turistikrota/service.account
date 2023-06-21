@@ -9,7 +9,6 @@ import (
 
 type AccountListMyResponse struct {
 	UserName      string     `json:"userName"`
-	UserCode      string     `json:"userCode"`
 	FullName      string     `json:"fullName"`
 	AvatarURL     string     `json:"avatarUrl"`
 	Description   string     `json:"description"`
@@ -24,11 +23,10 @@ func (r *response) AccountListMy(res *query.AccountListMyResult) []*AccountListM
 	for _, account := range res.Entities {
 		list = append(list, &AccountListMyResponse{
 			UserName:      account.UserName,
-			UserCode:      account.UserCode,
 			FullName:      account.FullName,
 			Description:   account.Description,
 			IsActive:      account.IsActive,
-			AvatarURL:     helper.CDN.DressUser(account.UserName, account.UserCode),
+			AvatarURL:     helper.CDN.DressUser(account.UserName),
 			CompletedRate: account.CompletedRate,
 			IsVerified:    account.IsVerified,
 			CreatedAt:     account.CreatedAt,

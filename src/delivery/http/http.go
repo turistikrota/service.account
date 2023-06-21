@@ -73,15 +73,15 @@ func (h Server) Load(router fiber.Router) fiber.Router {
 
 	router.Post("/", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountCreate))
 	router.Get("/", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountListMy))
-	router.Get("/@:userNameAndCode/my", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountGet))
-	router.Get("/@:userNameAndCode", h.wrapWithTimeout(h.AccountProfileView))
-	router.Put("/@:userNameAndCode/enable", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountEnable))
-	router.Put("/@:userNameAndCode/disable", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountDisable))
-	router.Post("/@:userNameAndCode/social/:platform", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountSocialAdd))
-	router.Delete("/@:userNameAndCode/social/:platform", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountSocialRemove))
-	router.Put("/@:userNameAndCode/social/:platform", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountSocialUpdate))
-	router.Put("/@:userNameAndCode", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountUpdate))
-	router.Delete("/@:userNameAndCode", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountDelete))
+	router.Get("/@:userName/my", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountGet))
+	router.Get("/@:userName", h.wrapWithTimeout(h.AccountProfileView))
+	router.Put("/@:userName/enable", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountEnable))
+	router.Put("/@:userName/disable", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountDisable))
+	router.Post("/@:userName/social/:platform", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountSocialAdd))
+	router.Delete("/@:userName/social/:platform", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountSocialRemove))
+	router.Put("/@:userName/social/:platform", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountSocialUpdate))
+	router.Put("/@:userName", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountUpdate))
+	router.Delete("/@:userName", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountDelete))
 	return router
 }
 

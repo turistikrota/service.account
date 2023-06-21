@@ -10,7 +10,6 @@ import (
 
 type AccountProfileViewResponse struct {
 	UserName    string                         `json:"userName"`
-	UserCode    string                         `json:"userCode"`
 	FullName    string                         `json:"fullName"`
 	AvatarURL   string                         `json:"avatarUrl"`
 	Description string                         `json:"description"`
@@ -27,11 +26,10 @@ type AccountProfileSocialResponse struct {
 func (r *response) AccountProfileView(res *query.AccountProfileViewResult) *AccountProfileViewResponse {
 	return &AccountProfileViewResponse{
 		UserName:    res.Entity.UserName,
-		UserCode:    res.Entity.UserCode,
 		FullName:    res.Entity.FullName,
 		Description: res.Entity.Description,
 		Social:      r.AccountProfileSocialResponse(res.Entity.Social),
-		AvatarURL:   helper.CDN.DressUser(res.Entity.UserName, res.Entity.UserCode),
+		AvatarURL:   helper.CDN.DressUser(res.Entity.UserName),
 		IsVerified:  res.Entity.IsVerified,
 		CreatedAt:   res.Entity.CreatedAt,
 	}
