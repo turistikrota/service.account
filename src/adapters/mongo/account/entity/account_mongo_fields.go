@@ -4,7 +4,6 @@ type fields struct {
 	UUID          string
 	UserUUID      string
 	UserName      string
-	UserCode      string
 	FullName      string
 	Description   string
 	Social        string
@@ -27,7 +26,6 @@ var Fields = fields{
 	UUID:          "uuid",
 	UserUUID:      "user_uuid",
 	UserName:      "user_name",
-	UserCode:      "user_code",
 	FullName:      "full_name",
 	Description:   "description",
 	Social:        "social",

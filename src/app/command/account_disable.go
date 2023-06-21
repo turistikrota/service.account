@@ -11,7 +11,6 @@ import (
 type AccountDisableCommand struct {
 	UserUUID    string
 	AccountName string
-	AccountCode string
 }
 
 type AccountDisableResult struct{}
@@ -46,7 +45,6 @@ func (h accountDisableHandler) Handle(ctx context.Context, command AccountDisabl
 	err := h.repo.Disable(ctx, account.UserUnique{
 		UUID: command.UserUUID,
 		Name: command.AccountName,
-		Code: command.AccountCode,
 	})
 	if err != nil {
 		return nil, err
@@ -54,7 +52,6 @@ func (h accountDisableHandler) Handle(ctx context.Context, command AccountDisabl
 	h.events.Disabled(account.UserUnique{
 		UUID: command.UserUUID,
 		Name: command.AccountName,
-		Code: command.AccountCode,
 	})
 	return nil, nil
 }

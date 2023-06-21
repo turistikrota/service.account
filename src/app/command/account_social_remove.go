@@ -12,7 +12,6 @@ import (
 type AccountSocialRemoveCommand struct {
 	UserUUID    string
 	AccountName string
-	AccountCode string
 	Platform    string
 }
 
@@ -54,7 +53,6 @@ func (h accountSocialRemoveHandler) Handle(ctx context.Context, command AccountS
 	err := h.accountRepo.SocialRemove(ctx, account.UserUnique{
 		UUID: command.UserUUID,
 		Name: command.AccountName,
-		Code: command.AccountCode,
 	}, command.Platform)
 	if err != nil {
 		return nil, err
@@ -62,7 +60,6 @@ func (h accountSocialRemoveHandler) Handle(ctx context.Context, command AccountS
 	h.events.SocialRemoved(account.UserUnique{
 		UUID: command.UserUUID,
 		Name: command.AccountName,
-		Code: command.AccountCode,
 	}, command.Platform)
 	return &AccountSocialRemoveResult{}, nil
 }

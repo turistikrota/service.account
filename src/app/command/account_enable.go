@@ -11,7 +11,6 @@ import (
 type AccountEnableCommand struct {
 	UserUUID    string
 	AccountName string
-	AccountCode string
 }
 
 type AccountEnableResult struct{}
@@ -46,7 +45,6 @@ func (h accountEnableHandler) Handle(ctx context.Context, command AccountEnableC
 	err := h.repo.Enable(ctx, account.UserUnique{
 		UUID: command.UserUUID,
 		Name: command.AccountName,
-		Code: command.AccountCode,
 	})
 	if err != nil {
 		return nil, err
@@ -54,7 +52,6 @@ func (h accountEnableHandler) Handle(ctx context.Context, command AccountEnableC
 	h.events.Enabled(account.UserUnique{
 		UUID: command.UserUUID,
 		Name: command.AccountName,
-		Code: command.AccountCode,
 	})
 	return nil, nil
 }

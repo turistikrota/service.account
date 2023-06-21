@@ -9,7 +9,6 @@ import (
 type UserUnique struct {
 	UUID string
 	Name string
-	Code string
 }
 
 type Repository interface {

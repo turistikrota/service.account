@@ -12,9 +12,7 @@ import (
 type AccountUpdateCommand struct {
 	UserUUID    string
 	CurrentName string
-	CurrentCode string
 	UserName    string
-	UserCode    string
 	FullName    string
 	Description string
 	BirthDate   *time.Time
@@ -52,18 +50,15 @@ func (h accountUpdateHandler) Handle(ctx context.Context, command AccountUpdateC
 	u := account.UserUnique{
 		UUID: command.UserUUID,
 		Name: command.CurrentName,
-		Code: command.CurrentCode,
 	}
 	acc, err := h.repo.Get(ctx, u)
 	if err != nil {
 		return nil, err
 	}
-	if (acc.UserName != command.UserName || acc.UserCode != command.UserCode) && (command.UserName != "" && command.UserCode != "") {
-		command.UserCode = h.factory.FixCode(command.UserCode)
+	if acc.UserName != command.UserName && command.UserName != ""  {
 		exist, err := h.repo.Exist(ctx, account.UserUnique{
 			UUID: command.UserUUID,
 			Name: command.UserName,
-			Code: command.UserCode,
 		})
 		if err != nil {
 			return nil, err
@@ -72,7 +67,6 @@ func (h accountUpdateHandler) Handle(ctx context.Context, command AccountUpdateC
 			return nil, h.factory.Errors.ErrAlreadyExist()
 		}
 		acc.UserName = command.UserName
-		acc.UserCode = command.UserCode
 	}
 	if acc.BirthDate != command.BirthDate {
 		ageErr := h.factory.ValidateMinAge(command.BirthDate)

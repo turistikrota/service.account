@@ -11,12 +11,10 @@ import (
 type AccountCreateCommand struct {
 	UserUUID    string
 	AccountName string
-	AccountCode string
 }
 
 type AccountCreateResult struct {
 	AccountName string
-	AccountCode string
 }
 
 type AccountCreateHandler decorator.CommandHandler[AccountCreateCommand, *AccountCreateResult]
@@ -46,11 +44,9 @@ func NewAccountCreateHandler(config AccountCreateHandlerConfig) AccountCreateHan
 }
 
 func (h accountCreateHandler) Handle(ctx context.Context, command AccountCreateCommand) (*AccountCreateResult, *i18np.Error) {
-	command.AccountCode = h.factory.FixCode(command.AccountCode)
 	u := account.UserUnique{
 		UUID: command.UserUUID,
 		Name: command.AccountName,
-		Code: command.AccountCode,
 	}
 	exist, err := h.repo.Exist(ctx, u)
 	if err != nil {
@@ -59,7 +55,7 @@ func (h accountCreateHandler) Handle(ctx context.Context, command AccountCreateC
 	if exist {
 		return nil, h.factory.Errors.ErrAlreadyExist()
 	}
-	acc := h.factory.NewAccount(command.UserUUID, command.AccountName, command.AccountCode)
+	acc := h.factory.NewAccount(command.UserUUID, command.AccountName)
 	err = h.factory.Validate(acc)
 	if err != nil {
 		return nil, err
@@ -71,6 +67,5 @@ func (h accountCreateHandler) Handle(ctx context.Context, command AccountCreateC
 	h.events.Created(u)
 	return &AccountCreateResult{
 		AccountName: acc.UserName,
-		AccountCode: acc.UserCode,
 	}, nil
 }

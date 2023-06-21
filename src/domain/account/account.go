@@ -6,7 +6,6 @@ type Entity struct {
 	UUID          string         `json:"uuid"`
 	UserUUID      string         `json:"user_uuid"`
 	UserName      string         `json:"user_name"`
-	UserCode      string         `json:"user_code"`
 	FullName      string         `json:"full_name"`
 	Description   string         `json:"description"`
 	Social        []EntitySocial `json:"social"`
