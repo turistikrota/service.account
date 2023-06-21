@@ -12,7 +12,6 @@ import (
 type AccountSocialUpdateCommand struct {
 	UserUUID    string
 	AccountName string
-	AccountCode string
 	Platform    string
 	Value       string
 }
@@ -68,7 +67,6 @@ func (h accountSocialUpdateHandler) Handle(ctx context.Context, command AccountS
 	err = h.accountRepo.SocialUpdate(ctx, account.UserUnique{
 		UUID: command.UserUUID,
 		Name: command.AccountName,
-		Code: command.AccountCode,
 	}, social)
 	if err != nil {
 		return nil, err
@@ -76,7 +74,6 @@ func (h accountSocialUpdateHandler) Handle(ctx context.Context, command AccountS
 	h.events.SocialUpdated(account.UserUnique{
 		UUID: command.UserUUID,
 		Name: command.AccountName,
-		Code: command.AccountCode,
 	}, *social)
 	return nil, nil
 }

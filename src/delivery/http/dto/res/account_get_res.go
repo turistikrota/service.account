@@ -10,7 +10,6 @@ import (
 
 type AccountGetResponse struct {
 	UserName      string                     `json:"userName"`
-	UserCode      string                     `json:"userCode"`
 	FullName      string                     `json:"fullName"`
 	AvatarURL     string                     `json:"avatarUrl"`
 	Description   string                     `json:"description"`
@@ -31,11 +30,10 @@ type AccountGetResponseSocial struct {
 func (r *response) AccountGet(res *query.AccountGetResult) *AccountGetResponse {
 	return &AccountGetResponse{
 		UserName:      res.Entity.UserName,
-		UserCode:      res.Entity.UserCode,
 		FullName:      res.Entity.FullName,
 		Description:   res.Entity.Description,
 		Social:        r.AccountGetResponseSocial(res.Entity.Social),
-		AvatarURL:     helper.CDN.DressUser(res.Entity.UserName, res.Entity.UserCode),
+		AvatarURL:     helper.CDN.DressUser(res.Entity.UserName),
 		IsActive:      res.Entity.IsActive,
 		CompletedRate: res.Entity.CompletedRate,
 		IsVerified:    res.Entity.IsVerified,

@@ -11,7 +11,6 @@ func (r *AccountSocialRequest) ToRemoveCommand(userUUID string) command.AccountS
 	return command.AccountSocialRemoveCommand{
 		UserUUID:    userUUID,
 		AccountName: r.UserName,
-		AccountCode: r.UserCode,
 		Platform:    r.Platform,
 	}
 }

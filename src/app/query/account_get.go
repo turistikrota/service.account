@@ -14,7 +14,6 @@ import (
 type AccountGetQuery struct {
 	UserUUID string
 	Name     string
-	Code     string
 }
 
 type AccountGetResult struct {
@@ -52,7 +51,6 @@ func (h accountGetHandler) Handle(ctx context.Context, query AccountGetQuery) (*
 		return h.repo.Get(ctx, account.UserUnique{
 			UUID: query.UserUUID,
 			Name: query.Name,
-			Code: query.Code,
 		})
 	}
 	a, err := h.cache.Creator(creator).Handler(cacheHandler).Get(h.generateCacheKey(query))
@@ -65,5 +63,5 @@ func (h accountGetHandler) Handle(ctx context.Context, query AccountGetQuery) (*
 }
 
 func (h accountGetHandler) generateCacheKey(query AccountGetQuery) string {
-	return fmt.Sprintf("c_acc_get__%v_%v_%v", query.Name, query.Code, query.UserUUID)
+	return fmt.Sprintf("c_acc_get__%v_%v", query.Name, query.UserUUID)
 }

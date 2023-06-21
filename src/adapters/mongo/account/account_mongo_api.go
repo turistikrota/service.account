@@ -25,7 +25,6 @@ func (r *repo) Create(ctx context.Context, account *account.Entity) (*account.En
 func (r *repo) ProfileView(ctx context.Context, u account.UserUnique) (*account.Entity, *i18np.Error) {
 	filter := bson.M{
 		entity.Fields.UserName: u.Name,
-		entity.Fields.UserCode: u.Code,
 		entity.Fields.IsActive: true,
 		entity.Fields.IsDeleted: bson.M{
 			"$ne": true,
@@ -33,7 +32,6 @@ func (r *repo) ProfileView(ctx context.Context, u account.UserUnique) (*account.
 	}
 	opts := options.FindOne().SetProjection(bson.M{
 		entity.Fields.UserName:    1,
-		entity.Fields.UserCode:    1,
 		entity.Fields.FullName:    1,
 		entity.Fields.Description: 1,
 		entity.Fields.Social:      1,
@@ -54,7 +52,6 @@ func (r *repo) Get(ctx context.Context, u account.UserUnique) (*account.Entity, 
 	filter := bson.M{
 		entity.Fields.UserUUID: u.UUID,
 		entity.Fields.UserName: u.Name,
-		entity.Fields.UserCode: u.Code,
 		entity.Fields.IsDeleted: bson.M{
 			"$ne": true,
 		},
@@ -73,7 +70,6 @@ func (r *repo) Exist(ctx context.Context, u account.UserUnique) (bool, *i18np.Er
 	filter := bson.M{
 		entity.Fields.UserUUID: u.UUID,
 		entity.Fields.UserName: u.Name,
-		entity.Fields.UserCode: u.Code,
 	}
 	o, exist, err := r.helper.GetFilter(ctx, filter)
 	if err != nil {
@@ -89,7 +85,6 @@ func (r *repo) SocialAdd(ctx context.Context, u account.UserUnique, social *acco
 	filter := bson.M{
 		entity.Fields.UserUUID: u.UUID,
 		entity.Fields.UserName: u.Name,
-		entity.Fields.UserCode: u.Code,
 	}
 	setter := bson.M{
 		"$addToSet": bson.M{
@@ -110,7 +105,6 @@ func (r *repo) SocialUpdate(ctx context.Context, u account.UserUnique, social *a
 	filter := bson.M{
 		entity.Fields.UserUUID:                           u.UUID,
 		entity.Fields.UserName:                           u.Name,
-		entity.Fields.UserCode:                           u.Code,
 		entity.SocialField(entity.SocialFields.Platform): social.Platform,
 	}
 	setter := bson.M{
@@ -127,7 +121,6 @@ func (r *repo) SocialRemove(ctx context.Context, u account.UserUnique, platform 
 	filter := bson.M{
 		entity.Fields.UserUUID:                           u.UUID,
 		entity.Fields.UserName:                           u.Name,
-		entity.Fields.UserCode:                           u.Code,
 		entity.SocialField(entity.SocialFields.Platform): platform,
 	}
 	setter := bson.M{
@@ -147,12 +140,10 @@ func (r *repo) Update(ctx context.Context, u account.UserUnique, account *accoun
 	filter := bson.M{
 		entity.Fields.UserUUID: u.UUID,
 		entity.Fields.UserName: u.Name,
-		entity.Fields.UserCode: u.Code,
 	}
 	setter := bson.M{
 		"$set": bson.M{
 			entity.Fields.UserName:    account.UserName,
-			entity.Fields.UserCode:    account.UserCode,
 			entity.Fields.FullName:    account.FullName,
 			entity.Fields.Description: account.Description,
 			entity.Fields.BirthDate:   account.BirthDate,
@@ -166,7 +157,6 @@ func (r *repo) Disable(ctx context.Context, u account.UserUnique) *i18np.Error {
 	filter := bson.M{
 		entity.Fields.UserUUID: u.UUID,
 		entity.Fields.UserName: u.Name,
-		entity.Fields.UserCode: u.Code,
 		entity.Fields.IsActive: true,
 	}
 	setter := bson.M{
@@ -182,7 +172,6 @@ func (r *repo) Enable(ctx context.Context, u account.UserUnique) *i18np.Error {
 	filter := bson.M{
 		entity.Fields.UserUUID: u.UUID,
 		entity.Fields.UserName: u.Name,
-		entity.Fields.UserCode: u.Code,
 		entity.Fields.IsActive: false,
 	}
 	setter := bson.M{
@@ -198,7 +187,6 @@ func (r *repo) Delete(ctx context.Context, u account.UserUnique) *i18np.Error {
 	filter := bson.M{
 		entity.Fields.UserUUID: u.UUID,
 		entity.Fields.UserName: u.Name,
-		entity.Fields.UserCode: u.Code,
 		entity.Fields.IsDeleted: bson.M{
 			"$ne": true,
 		},

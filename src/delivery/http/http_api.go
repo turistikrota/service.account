@@ -10,7 +10,6 @@ import (
 func (h Server) AccountDelete(ctx *fiber.Ctx) error {
 	d := dto.Request.AccountDetail()
 	h.parseParams(ctx, d)
-	d.Parse()
 	_, err := h.app.Commands.AccountDelete.Handle(ctx.UserContext(), d.ToDeleteCommand(current_user.Parse(ctx).UUID))
 	return result.IfSuccess(err, ctx, h.i18n, Messages.Success.AccountDelete)
 }
@@ -37,7 +36,6 @@ func (h Server) AccountUpdate(ctx *fiber.Ctx) error {
 func (h Server) AccountDisable(ctx *fiber.Ctx) error {
 	d := dto.Request.AccountDetail()
 	h.parseParams(ctx, d)
-	d.Parse()
 	_, err := h.app.Commands.AccountDisable.Handle(ctx.UserContext(), d.ToDisableCommand(current_user.Parse(ctx).UUID))
 	return result.IfSuccess(err, ctx, h.i18n, Messages.Success.AccountDisable)
 }
@@ -45,7 +43,6 @@ func (h Server) AccountDisable(ctx *fiber.Ctx) error {
 func (h Server) AccountEnable(ctx *fiber.Ctx) error {
 	d := dto.Request.AccountDetail()
 	h.parseParams(ctx, d)
-	d.Parse()
 	_, err := h.app.Commands.AccountEnable.Handle(ctx.UserContext(), d.ToEnableCommand(current_user.Parse(ctx).UUID))
 	return result.IfSuccess(err, ctx, h.i18n, Messages.Success.AccountEnable)
 }
@@ -73,7 +70,6 @@ func (h Server) AccountSocialUpdate(ctx *fiber.Ctx) error {
 func (h Server) AccountSocialRemove(ctx *fiber.Ctx) error {
 	d := dto.Request.AccountSocial()
 	h.parseParams(ctx, d)
-	d.Parse()
 	_, err := h.app.Commands.AccountSocialRemove.Handle(ctx.UserContext(), d.ToRemoveCommand(current_user.Parse(ctx).UUID))
 	return result.IfSuccess(err, ctx, h.i18n, Messages.Success.AccountSocialRemove)
 }
@@ -81,7 +77,7 @@ func (h Server) AccountSocialRemove(ctx *fiber.Ctx) error {
 func (h Server) AccountGet(ctx *fiber.Ctx) error {
 	d := dto.Request.AccountDetail()
 	h.parseParams(ctx, d)
-	res, err := h.app.Queries.AccountGet.Handle(ctx.UserContext(), d.Parse().ToGetQuery(current_user.Parse(ctx).UUID))
+	res, err := h.app.Queries.AccountGet.Handle(ctx.UserContext(), d.ToGetQuery(current_user.Parse(ctx).UUID))
 	return result.IfSuccessDetail(err, ctx, h.i18n, Messages.Success.AccountGet, func() interface{} {
 		return dto.Response.AccountGet(res)
 	})
@@ -98,7 +94,7 @@ func (h Server) AccountListMy(ctx *fiber.Ctx) error {
 func (h Server) AccountProfileView(ctx *fiber.Ctx) error {
 	d := dto.Request.AccountDetail()
 	h.parseParams(ctx, d)
-	res, err := h.app.Queries.AccountProfileView.Handle(ctx.UserContext(), d.Parse().ToProfileQuery())
+	res, err := h.app.Queries.AccountProfileView.Handle(ctx.UserContext(), d.ToProfileQuery())
 	return result.IfSuccessDetail(err, ctx, h.i18n, Messages.Success.AccountProfileView, func() interface{} {
 		return dto.Response.AccountProfileView(res)
 	})

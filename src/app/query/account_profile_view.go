@@ -10,7 +10,6 @@ import (
 
 type AccountProfileViewQuery struct {
 	Name string
-	Code string
 }
 
 type AccountProfileViewResult struct {
@@ -40,7 +39,6 @@ func NewAccountProfileViewHandler(config AccountProfileViewHandlerConfig) Accoun
 func (h accountProfileViewHandler) Handle(ctx context.Context, query AccountProfileViewQuery) (*AccountProfileViewResult, *i18np.Error) {
 	a, err := h.repo.ProfileView(ctx, account.UserUnique{
 		Name: query.Name,
-		Code: query.Code,
 	})
 	if err != nil {
 		return nil, err
