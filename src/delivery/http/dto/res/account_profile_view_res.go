@@ -29,7 +29,7 @@ func (r *response) AccountProfileView(res *query.AccountProfileViewResult) *Acco
 		FullName:    res.Entity.FullName,
 		Description: res.Entity.Description,
 		Social:      r.AccountProfileSocialResponse(res.Entity.Social),
-		AvatarURL:   helper.CDN.DressUser(res.Entity.UserName),
+		AvatarURL:   helper.CDN.DressAvatar(res.Entity.UserName),
 		IsVerified:  res.Entity.IsVerified,
 		CreatedAt:   res.Entity.CreatedAt,
 	}

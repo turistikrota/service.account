@@ -26,7 +26,7 @@ func (r *response) AccountListMy(res *query.AccountListMyResult) []*AccountListM
 			FullName:      account.FullName,
 			Description:   account.Description,
 			IsActive:      account.IsActive,
-			AvatarURL:     helper.CDN.DressUser(account.UserName),
+			AvatarURL:     helper.CDN.DressAvatar(account.UserName),
 			CompletedRate: account.CompletedRate,
 			IsVerified:    account.IsVerified,
 			CreatedAt:     account.CreatedAt,

@@ -33,7 +33,7 @@ func (r *response) AccountGet(res *query.AccountGetResult) *AccountGetResponse {
 		FullName:      res.Entity.FullName,
 		Description:   res.Entity.Description,
 		Social:        r.AccountGetResponseSocial(res.Entity.Social),
-		AvatarURL:     helper.CDN.DressUser(res.Entity.UserName),
+		AvatarURL:     helper.CDN.DressAvatar(res.Entity.UserName),
 		IsActive:      res.Entity.IsActive,
 		CompletedRate: res.Entity.CompletedRate,
 		IsVerified:    res.Entity.IsVerified,
