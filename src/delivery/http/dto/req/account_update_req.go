@@ -9,8 +9,6 @@ import (
 
 type AccountUpdateRequest struct {
 	UserName    string
-	UserCode    string
-	AccountName string `json:"accountName,omitempty" validate:"omitempty,username,max=20,min=3"`
 	FullName    string `json:"fullName" validate:"required,max=70,min=3"`
 	Description string `json:"description" validate:"required,max=1000"`
 	BirthDate   string `json:"birthDate" validate:"required,datetime=2006-01-02"`
@@ -24,8 +22,7 @@ func (r *AccountUpdateRequest) ToCommand(userUUID string) command.AccountUpdateC
 	birth, _ := time.Parse(formats.DateYYYYMMDD, r.BirthDate)
 	return command.AccountUpdateCommand{
 		UserUUID:    userUUID,
-		CurrentName: r.UserName,
-		UserName:    r.AccountName,
+		UserName:    r.UserName,
 		FullName:    r.FullName,
 		Description: r.Description,
 		BirthDate:   &birth,

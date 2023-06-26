@@ -11,7 +11,6 @@ import (
 
 type AccountUpdateCommand struct {
 	UserUUID    string
-	CurrentName string
 	UserName    string
 	FullName    string
 	Description string
@@ -49,24 +48,11 @@ func NewAccountUpdateHandler(config AccountUpdateHandlerConfig) AccountUpdateHan
 func (h accountUpdateHandler) Handle(ctx context.Context, command AccountUpdateCommand) (*AccountUpdateResult, *i18np.Error) {
 	u := account.UserUnique{
 		UUID: command.UserUUID,
-		Name: command.CurrentName,
+		Name: command.UserName,
 	}
 	acc, err := h.repo.Get(ctx, u)
 	if err != nil {
 		return nil, err
-	}
-	if acc.UserName != command.UserName && command.UserName != ""  {
-		exist, err := h.repo.Exist(ctx, account.UserUnique{
-			UUID: command.UserUUID,
-			Name: command.UserName,
-		})
-		if err != nil {
-			return nil, err
-		}
-		if exist {
-			return nil, h.factory.Errors.ErrAlreadyExist()
-		}
-		acc.UserName = command.UserName
 	}
 	if acc.BirthDate != command.BirthDate {
 		ageErr := h.factory.ValidateMinAge(command.BirthDate)
