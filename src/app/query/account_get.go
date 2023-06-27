@@ -3,6 +3,7 @@ package query
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"api.turistikrota.com/account/src/domain/account"
 	"github.com/mixarchitecture/i18np"
@@ -53,7 +54,7 @@ func (h accountGetHandler) Handle(ctx context.Context, query AccountGetQuery) (*
 			Name: query.Name,
 		})
 	}
-	a, err := h.cache.Creator(creator).Handler(cacheHandler).Get(h.generateCacheKey(query))
+	a, err := h.cache.Creator(creator).Handler(cacheHandler).Timeout(1 * time.Minute).Get(h.generateCacheKey(query))
 	if err != nil {
 		return nil, err
 	}
