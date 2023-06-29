@@ -143,11 +143,12 @@ func (r *repo) Update(ctx context.Context, u account.UserUnique, account *accoun
 	}
 	setter := bson.M{
 		"$set": bson.M{
-			entity.Fields.UserName:    account.UserName,
-			entity.Fields.FullName:    account.FullName,
-			entity.Fields.Description: account.Description,
-			entity.Fields.BirthDate:   account.BirthDate,
-			entity.Fields.UpdatedAt:   account.UpdatedAt,
+			entity.Fields.UserName:      account.UserName,
+			entity.Fields.FullName:      account.FullName,
+			entity.Fields.Description:   account.Description,
+			entity.Fields.BirthDate:     account.BirthDate,
+			entity.Fields.CompletedRate: account.CompletedRate,
+			entity.Fields.UpdatedAt:     account.UpdatedAt,
 		},
 	}
 	return r.helper.UpdateOne(ctx, filter, setter)
