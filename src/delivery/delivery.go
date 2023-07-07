@@ -12,9 +12,9 @@ import (
 	"api.turistikrota.com/account/src/delivery/http"
 	"github.com/gofiber/fiber/v2"
 	"github.com/mixarchitecture/i18np"
-	"github.com/turistikrota/service.shared/events"
-	sharedHttp "github.com/turistikrota/service.shared/server/http"
-	"github.com/turistikrota/service.shared/validator"
+	"github.com/mixarchitecture/microp/events"
+	sharedHttp "github.com/mixarchitecture/microp/server/http"
+	"github.com/mixarchitecture/microp/validator"
 )
 
 type Delivery interface {

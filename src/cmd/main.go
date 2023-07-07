@@ -3,19 +3,20 @@ package main
 import (
 	"context"
 
+	"github.com/mixarchitecture/microp/validator"
+	"github.com/mixarchitecture/mredis"
 	"github.com/turistikrota/service.shared/auth/session"
 	"github.com/turistikrota/service.shared/auth/token"
 	"github.com/turistikrota/service.shared/db/mongo"
 	"github.com/turistikrota/service.shared/db/redis"
-	"github.com/turistikrota/service.shared/validator"
 
 	"api.turistikrota.com/account/src/config"
 	"api.turistikrota.com/account/src/delivery"
 	"api.turistikrota.com/account/src/service"
 	"github.com/mixarchitecture/i18np"
-	"github.com/turistikrota/service.shared/env"
-	"github.com/turistikrota/service.shared/events/nats"
-	"github.com/turistikrota/service.shared/logs"
+	"github.com/mixarchitecture/microp/env"
+	"github.com/mixarchitecture/microp/events/nats"
+	"github.com/mixarchitecture/microp/logs"
 )
 
 func main() {
@@ -33,18 +34,19 @@ func main() {
 	valid.ConnectCustom()
 	valid.RegisterTagName()
 	mongo := loadMongo(cnf)
-	cache := redis.New(&redis.Config{
+	cache := mredis.New(&mredis.Config{
 		Host:     cnf.CacheRedis.Host,
 		Port:     cnf.CacheRedis.Port,
 		Password: cnf.CacheRedis.Pw,
 		DB:       cnf.CacheRedis.Db,
 	})
+
 	app := service.NewApplication(service.Config{
-		App:           cnf,
-		EventEngine:   eventEngine,
-		Mongo:  mongo,
-		Validator:     valid,
-		CacheSrv:      cache,
+		App:         cnf,
+		EventEngine: eventEngine,
+		Mongo:       mongo,
+		Validator:   valid,
+		CacheSrv:    cache,
 	})
 	r := redis.New(&redis.Config{
 		Host:     cnf.Redis.Host,

@@ -2,7 +2,7 @@ package event_stream
 
 import (
 	"api.turistikrota.com/account/src/app"
-	"github.com/turistikrota/service.shared/events"
+	"github.com/mixarchitecture/microp/events"
 )
 
 type Server struct {

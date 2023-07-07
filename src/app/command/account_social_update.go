@@ -6,7 +6,7 @@ import (
 	"api.turistikrota.com/account/src/domain/account"
 	"api.turistikrota.com/account/src/domain/platform"
 	"github.com/mixarchitecture/i18np"
-	"github.com/turistikrota/service.shared/decorator"
+	"github.com/mixarchitecture/microp/decorator"
 )
 
 type AccountSocialUpdateCommand struct {

@@ -5,7 +5,7 @@ import (
 
 	"api.turistikrota.com/account/src/domain/account"
 	"github.com/mixarchitecture/i18np"
-	"github.com/turistikrota/service.shared/decorator"
+	"github.com/mixarchitecture/microp/decorator"
 )
 
 type AccountDeleteCommand struct {

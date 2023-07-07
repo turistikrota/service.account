@@ -2,7 +2,7 @@ package platform
 
 import (
 	"api.turistikrota.com/account/src/config"
-	"github.com/turistikrota/service.shared/events"
+	"github.com/mixarchitecture/microp/events"
 )
 
 type Events interface {

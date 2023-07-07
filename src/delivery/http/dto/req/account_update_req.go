@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"api.turistikrota.com/account/src/app/command"
-	"github.com/turistikrota/service.shared/formats"
+	"github.com/mixarchitecture/microp/formats"
 )
 
 type AccountUpdateRequest struct {
