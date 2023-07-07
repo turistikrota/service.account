@@ -11,14 +11,14 @@ import (
 	"github.com/turistikrota/service.shared/server/http/auth/device_uuid"
 	"github.com/turistikrota/service.shared/server/http/auth/required_access"
 
-	"api.turistikrota.com/account/src/app"
-	"api.turistikrota.com/account/src/config"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/timeout"
 	"github.com/mixarchitecture/i18np"
 	"github.com/mixarchitecture/microp/server/http"
 	"github.com/mixarchitecture/microp/server/http/parser"
 	"github.com/mixarchitecture/microp/validator"
+	"github.com/turistikrota/service.account/src/app"
+	"github.com/turistikrota/service.account/src/config"
 	"github.com/turistikrota/service.shared/auth/session"
 	"github.com/turistikrota/service.shared/auth/token"
 )

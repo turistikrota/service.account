@@ -1,8 +1,8 @@
 package account
 
 import (
-	"api.turistikrota.com/account/src/adapters/mongo/account/entity"
-	"api.turistikrota.com/account/src/domain/account"
+	"github.com/turistikrota/service.account/src/adapters/mongo/account/entity"
+	"github.com/turistikrota/service.account/src/domain/account"
 	mongo2 "github.com/turistikrota/service.shared/db/mongo"
 	"go.mongodb.org/mongo-driver/mongo"
 )

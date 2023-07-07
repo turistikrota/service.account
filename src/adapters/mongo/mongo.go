@@ -1,10 +1,10 @@
 package mongo
 
 import (
-	mongo_account "api.turistikrota.com/account/src/adapters/mongo/account"
-	mongo_platform "api.turistikrota.com/account/src/adapters/mongo/platform"
-	"api.turistikrota.com/account/src/domain/account"
-	"api.turistikrota.com/account/src/domain/platform"
+	mongo_account "github.com/turistikrota/service.account/src/adapters/mongo/account"
+	mongo_platform "github.com/turistikrota/service.account/src/adapters/mongo/platform"
+	"github.com/turistikrota/service.account/src/domain/account"
+	"github.com/turistikrota/service.account/src/domain/platform"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 

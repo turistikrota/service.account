@@ -1,8 +1,8 @@
 package req
 
 import (
-	"api.turistikrota.com/account/src/app/command"
-	"api.turistikrota.com/account/src/domain/platform"
+	"github.com/turistikrota/service.account/src/app/command"
+	"github.com/turistikrota/service.account/src/domain/platform"
 )
 
 type PlatformTranslationRequest struct {

@@ -4,12 +4,12 @@ import (
 	"context"
 	"time"
 
-	"api.turistikrota.com/account/src/adapters/mongo/platform/entity"
+	"github.com/turistikrota/service.account/src/adapters/mongo/platform/entity"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
-	"api.turistikrota.com/account/src/domain/platform"
 	"github.com/mixarchitecture/i18np"
+	"github.com/turistikrota/service.account/src/domain/platform"
 )
 
 func (r *repo) Create(ctx context.Context, platform *platform.Entity) *i18np.Error {

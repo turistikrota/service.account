@@ -3,10 +3,10 @@ package command
 import (
 	"context"
 
-	"api.turistikrota.com/account/src/domain/account"
-	"api.turistikrota.com/account/src/domain/platform"
 	"github.com/mixarchitecture/i18np"
 	"github.com/mixarchitecture/microp/decorator"
+	"github.com/turistikrota/service.account/src/domain/account"
+	"github.com/turistikrota/service.account/src/domain/platform"
 )
 
 type AccountSocialRemoveCommand struct {

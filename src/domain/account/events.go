@@ -3,8 +3,8 @@ package account
 import (
 	"time"
 
-	"api.turistikrota.com/account/src/config"
 	"github.com/mixarchitecture/microp/events"
+	"github.com/turistikrota/service.account/src/config"
 )
 
 type Events interface {
