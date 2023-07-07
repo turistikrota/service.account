@@ -1,17 +1,17 @@
 package service
 
 import (
-	"api.turistikrota.com/account/src/adapters"
-	"api.turistikrota.com/account/src/app"
-	"api.turistikrota.com/account/src/app/command"
-	"api.turistikrota.com/account/src/app/query"
-	"api.turistikrota.com/account/src/config"
-	"api.turistikrota.com/account/src/domain/account"
-	"api.turistikrota.com/account/src/domain/platform"
 	"github.com/mixarchitecture/cache"
 	"github.com/mixarchitecture/microp/decorator"
 	"github.com/mixarchitecture/microp/events"
 	"github.com/mixarchitecture/microp/validator"
+	"github.com/turistikrota/service.account/src/adapters"
+	"github.com/turistikrota/service.account/src/app"
+	"github.com/turistikrota/service.account/src/app/command"
+	"github.com/turistikrota/service.account/src/app/query"
+	"github.com/turistikrota/service.account/src/config"
+	"github.com/turistikrota/service.account/src/domain/account"
+	"github.com/turistikrota/service.account/src/domain/platform"
 	"github.com/turistikrota/service.shared/db/mongo"
 )
 

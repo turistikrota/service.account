@@ -1,6 +1,6 @@
 package req
 
-import "api.turistikrota.com/account/src/app/query"
+import "github.com/turistikrota/service.account/src/app/query"
 
 type PlatformGetRequest struct {
 	Slug string `param:"slug" validate:"required"`

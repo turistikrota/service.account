@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	"api.turistikrota.com/account/src/domain/account"
 	"github.com/mixarchitecture/cache"
 	"github.com/mixarchitecture/i18np"
 	"github.com/mixarchitecture/microp/decorator"
+	"github.com/turistikrota/service.account/src/domain/account"
 )
 
 type AccountGetQuery struct {

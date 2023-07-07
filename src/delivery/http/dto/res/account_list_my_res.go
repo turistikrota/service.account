@@ -3,7 +3,7 @@ package res
 import (
 	"time"
 
-	"api.turistikrota.com/account/src/app/query"
+	"github.com/turistikrota/service.account/src/app/query"
 	"github.com/turistikrota/service.shared/helper"
 )
 

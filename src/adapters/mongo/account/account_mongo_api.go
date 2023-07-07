@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
-	"api.turistikrota.com/account/src/adapters/mongo/account/entity"
-	"api.turistikrota.com/account/src/domain/account"
 	"github.com/mixarchitecture/i18np"
+	"github.com/turistikrota/service.account/src/adapters/mongo/account/entity"
+	"github.com/turistikrota/service.account/src/domain/account"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"

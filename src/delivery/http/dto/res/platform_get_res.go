@@ -3,8 +3,8 @@ package res
 import (
 	"time"
 
-	"api.turistikrota.com/account/src/app/query"
-	"api.turistikrota.com/account/src/domain/platform"
+	"github.com/turistikrota/service.account/src/app/query"
+	"github.com/turistikrota/service.account/src/domain/platform"
 )
 
 type PlatformGetResponse struct {

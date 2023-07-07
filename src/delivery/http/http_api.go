@@ -1,9 +1,9 @@
 package http
 
 import (
-	"api.turistikrota.com/account/src/delivery/http/dto"
 	"github.com/gofiber/fiber/v2"
 	"github.com/mixarchitecture/microp/server/http/result"
+	"github.com/turistikrota/service.account/src/delivery/http/dto"
 	"github.com/turistikrota/service.shared/server/http/auth/current_user"
 )
 

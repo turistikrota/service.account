@@ -10,13 +10,13 @@ import (
 	"github.com/turistikrota/service.shared/db/mongo"
 	"github.com/turistikrota/service.shared/db/redis"
 
-	"api.turistikrota.com/account/src/config"
-	"api.turistikrota.com/account/src/delivery"
-	"api.turistikrota.com/account/src/service"
 	"github.com/mixarchitecture/i18np"
 	"github.com/mixarchitecture/microp/env"
 	"github.com/mixarchitecture/microp/events/nats"
 	"github.com/mixarchitecture/microp/logs"
+	"github.com/turistikrota/service.account/src/config"
+	"github.com/turistikrota/service.account/src/delivery"
+	"github.com/turistikrota/service.account/src/service"
 )
 
 func main() {

@@ -3,8 +3,8 @@ package req
 import (
 	"time"
 
-	"api.turistikrota.com/account/src/app/command"
 	"github.com/mixarchitecture/microp/formats"
+	"github.com/turistikrota/service.account/src/app/command"
 )
 
 type AccountUpdateRequest struct {
