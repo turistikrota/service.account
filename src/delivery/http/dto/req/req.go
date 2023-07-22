@@ -7,6 +7,8 @@ type Request interface {
 	AccountSocial() *AccountSocialRequest
 	AccountSocialAction() *AccountSocialActionRequest
 	AccountListMy() *AccountListMyRequest
+	AccountSelect() *AccountSelectRequest
+	AccountGet() *AccountGetRequest
 	PlatformCreate() *PlatformCreateRequest
 	PlatformDetail() *PlatformDetailRequest
 	PlatformAction() *PlatformActionRequest
@@ -24,6 +26,14 @@ func New() Request {
 
 func (r *request) AccountDetail() *AccountDetailRequest {
 	return &AccountDetailRequest{}
+}
+
+func (r *request) AccountSelect() *AccountSelectRequest {
+	return &AccountSelectRequest{}
+}
+
+func (r *request) AccountGet() *AccountGetRequest {
+	return &AccountGetRequest{}
 }
 
 func (r *request) AccountCreate() *AccountCreateRequest {

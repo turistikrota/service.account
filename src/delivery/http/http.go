@@ -73,8 +73,10 @@ func (h Server) Load(router fiber.Router) fiber.Router {
 
 	router.Post("/", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountCreate))
 	router.Get("/", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountListMy))
+	router.Get("/selected", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountGetSelected))
 	router.Get("/@:userName/my", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountGet))
 	router.Get("/@:userName", h.wrapWithTimeout(h.AccountProfileView))
+	router.Put("/@:userName/select", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountSelect))
 	router.Put("/@:userName/enable", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountEnable))
 	router.Put("/@:userName/disable", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountDisable))
 	router.Post("/@:userName/social/:platform", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountSocialAdd))
@@ -114,6 +116,18 @@ func (h Server) currentUserAccess() fiber.Handler {
 		IsRefresh:  false,
 		IsAccess:   true,
 	})
+}
+
+func (h Server) CreateServerSideCookie(key string, value string) *fiber.Cookie {
+	return &fiber.Cookie{
+		Name:     key,
+		Value:    value,
+		Path:     "/",
+		HTTPOnly: true,
+		Secure:   true,
+		SameSite: "Strict",
+		Domain:   h.httpHeaders.Domain,
+	}
 }
 
 func (h Server) deviceUUID() fiber.Handler {

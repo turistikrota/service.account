@@ -12,6 +12,8 @@ type successMessages struct {
 	AccountGet                string
 	AccountListMy             string
 	AccountProfileView        string
+	AccountSelect             string
+	AccountGetSelected        string
 	PlatformCreate            string
 	PlatformUpdate            string
 	PlatformEnable            string
@@ -25,9 +27,10 @@ type successMessages struct {
 }
 
 type errorMessages struct {
-	RequiredAuth      string
-	CurrentUserAccess string
-	AdminRoute        string
+	AccountNotSelected string
+	RequiredAuth       string
+	CurrentUserAccess  string
+	AdminRoute         string
 }
 
 type messages struct {
@@ -48,6 +51,8 @@ var Messages = messages{
 		AccountGet:                "http_success_account_get",
 		AccountListMy:             "http_success_account_list_my",
 		AccountProfileView:        "http_success_account_profile_viewed",
+		AccountSelect:             "http_success_account_selected",
+		AccountGetSelected:        "http_success_account_get_selected",
 		PlatformCreate:            "http_success_platform_created",
 		PlatformUpdate:            "http_success_platform_updated",
 		PlatformEnable:            "http_success_platform_enabled",
@@ -60,8 +65,9 @@ var Messages = messages{
 		PlatformList:              "http_success_platform_list",
 	},
 	Error: errorMessages{
-		RequiredAuth:      "http_error_required_auth",
-		CurrentUserAccess: "http_error_current_user_access",
-		AdminRoute:        "http_error_admin_route",
+		AccountNotSelected: "http_error_account_not_selected",
+		RequiredAuth:       "http_error_required_auth",
+		CurrentUserAccess:  "http_error_current_user_access",
+		AdminRoute:         "http_error_admin_route",
 	},
 }

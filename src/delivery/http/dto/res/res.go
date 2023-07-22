@@ -3,6 +3,7 @@ package res
 import (
 	"github.com/turistikrota/service.account/src/app/command"
 	"github.com/turistikrota/service.account/src/app/query"
+	"github.com/turistikrota/service.account/src/domain/account"
 )
 
 type Response interface {
@@ -12,6 +13,8 @@ type Response interface {
 	AccountProfileView(res *query.AccountProfileViewResult) *AccountProfileViewResponse
 	PlatformGet(res *query.PlatformGetBySlugResult) *PlatformGetResponse
 	PlatformList(res *query.PlatformListAllResult) []PlatformListResponse
+	AccountGetSelectedOk(account account.Entity) *AccountListMyResponse
+	AccountGetSelectedNotFound() *AccountSelectNotSelectedResponse
 }
 
 type response struct{}

@@ -100,6 +100,29 @@ func (h Server) AccountProfileView(ctx *fiber.Ctx) error {
 	})
 }
 
+func (h Server) AccountSelect(ctx *fiber.Ctx) error {
+	d := dto.Request.AccountSelect()
+	h.parseParams(ctx, d)
+	res, err := h.app.Queries.AccountGet.Handle(ctx.UserContext(), d.ToGetQuery(current_user.Parse(ctx).UUID))
+	if err != nil {
+		return err
+	}
+	ctx.Cookie(h.CreateServerSideCookie(".s.a.u", res.Entity.UserName))
+	return result.Success(Messages.Success.AccountSelect)
+}
+
+func (h Server) AccountGetSelected(ctx *fiber.Ctx) error {
+	userName := ctx.Cookies(".s.a.u")
+	if userName == "" {
+		return result.ErrorDetail(Messages.Error.AccountNotSelected, dto.Response.AccountGetSelectedNotFound())
+	}
+	userId := current_user.Parse(ctx).UUID
+	res, err := h.app.Queries.AccountGet.Handle(ctx.UserContext(), dto.Request.AccountGet().ToQuery(userId, userName))
+	return result.IfSuccessDetail(err, ctx, h.i18n, Messages.Success.AccountGetSelected, func() interface{} {
+		return dto.Response.AccountGetSelectedOk(res.Entity)
+	})
+}
+
 func (h Server) PlatformCreate(ctx *fiber.Ctx) error {
 	d := dto.Request.PlatformCreate()
 	h.parseBody(ctx, d)
