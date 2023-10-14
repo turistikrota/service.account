@@ -19,15 +19,16 @@ func (r *AccountUpdateRequest) LoadDetail(detail *AccountDetailRequest) {
 }
 
 func (r *AccountUpdateRequest) ToCommand(userUUID string) command.AccountUpdateCommand {
-	var date time.Time
+	var date *time.Time
 	if r.BirthDate != "" {
-		date, _ = time.Parse(formats.DateYYYYMMDD, r.BirthDate)
+		d, _ := time.Parse(formats.DateYYYYMMDD, r.BirthDate)
+		date = &d
 	}
 	return command.AccountUpdateCommand{
 		UserUUID:    userUUID,
 		UserName:    r.UserName,
 		FullName:    r.FullName,
 		Description: r.Description,
-		BirthDate:   &date,
+		BirthDate:   date,
 	}
 }
