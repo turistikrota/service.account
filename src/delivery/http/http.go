@@ -121,13 +121,16 @@ func (h Server) currentUserAccess() fiber.Handler {
 
 func (h Server) CreateServerSideCookie(key string, value string) *fiber.Cookie {
 	return &fiber.Cookie{
-		Name:     key,
-		Value:    value,
-		Path:     "/",
-		HTTPOnly: true,
-		Secure:   true,
-		SameSite: "Strict",
-		Domain:   h.httpHeaders.Domain,
+		Name:        key,
+		Value:       value,
+		Path:        "/",
+		HTTPOnly:    true,
+		Secure:      true,
+		SameSite:    "Strict",
+		Domain:      h.httpHeaders.Domain,
+		MaxAge:      60 * 60 * 24 * 365,
+		Expires:     time.Now().Add(60 * 60 * 24 * 365 * time.Second),
+		SessionOnly: false,
 	}
 }
 
