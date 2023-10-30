@@ -7,7 +7,6 @@ import (
 	"github.com/mixarchitecture/i18np"
 	"github.com/turistikrota/service.account/src/adapters/mongo/account/entity"
 	"github.com/turistikrota/service.account/src/domain/account"
-	"github.com/turistikrota/service.shared/db/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -216,13 +215,9 @@ func (r *repo) ListMy(ctx context.Context, userUUID string) ([]*account.Entity, 
 }
 
 func (r *repo) ListByIds(ctx context.Context, ids []string) ([]*account.Entity, *i18np.Error) {
-	oids, err := mongo.TransformIds(ids)
-	if err != nil {
-		return nil, i18np.NewError(err.Error())
-	}
 	filter := bson.M{
 		entity.Fields.UserUUID: bson.M{
-			"$in": oids,
+			"$in": ids,
 		},
 	}
 	transformer := func(acc *entity.MongoAccount) *account.Entity {
