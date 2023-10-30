@@ -100,7 +100,7 @@ func (d *delivery) loadEventStream() *delivery {
 }
 
 func (d *delivery) loadRPC() *delivery {
-	sharedRpc.RunServer(50051, func(server *grpc.Server) {
+	sharedRpc.RunServer(d.config.Grpc.Port, func(server *grpc.Server) {
 		svc := rpc.New(d.app, *d.i18n)
 		account.RegisterAccountServiceServer(server, svc)
 	})
