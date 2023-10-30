@@ -221,7 +221,7 @@ func (r *repo) ListByIds(ctx context.Context, ids []string) ([]*account.Entity, 
 		return nil, i18np.NewError(err.Error())
 	}
 	filter := bson.M{
-		"_id": bson.M{
+		entity.Fields.UserUUID: bson.M{
 			"$in": oids,
 		},
 	}
