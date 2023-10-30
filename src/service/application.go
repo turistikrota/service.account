@@ -155,6 +155,10 @@ func NewApplication(config Config) app.Application {
 				Repo:     accountRepo,
 				CqrsBase: base,
 			}),
+			AccountListByIds: query.NewAccountListByIdsHandler(query.AccountListByIdsHandlerConfig{
+				Repo:     accountRepo,
+				CqrsBase: base,
+			}),
 			AccountProfileView: query.NewAccountProfileViewHandler(query.AccountProfileViewHandlerConfig{
 				Repo:     accountRepo,
 				CqrsBase: base,

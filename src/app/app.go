@@ -33,6 +33,7 @@ type Queries struct {
 	AccountGet         query.AccountGetHandler
 	AccountProfileView query.AccountProfileViewHandler
 	AccountListMy      query.AccountListMyHandler
+	AccountListByIds   query.AccountListByIdsHandler
 	PlatformGetBySlug  query.PlatformGetBySlugHandler
 	PlatformListAll    query.PlatformListAllHandler
 }

@@ -22,6 +22,7 @@ ENV PORT 8080
 
 COPY --from=builder /main .
 COPY --from=builder /src/locales ./src/locales
+COPY --from=builder /protos ./protos
 
 EXPOSE $PORT
 
