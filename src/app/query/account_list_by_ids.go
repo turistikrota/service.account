@@ -9,7 +9,7 @@ import (
 )
 
 type AccountListByIdsQuery struct {
-	UUIDs []string
+	Users []account.UserUnique
 }
 
 type AccountListByIdsResult struct {
@@ -37,7 +37,7 @@ func NewAccountListByIdsHandler(config AccountListByIdsHandlerConfig) AccountLis
 }
 
 func (h accountListByIdsHandler) Handle(ctx context.Context, query AccountListByIdsQuery) (*AccountListByIdsResult, *i18np.Error) {
-	accounts, err := h.repo.ListByIds(ctx, query.UUIDs)
+	accounts, err := h.repo.ListByUniques(ctx, query.Users)
 	if err != nil {
 		return nil, err
 	}

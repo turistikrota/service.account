@@ -5,12 +5,20 @@ import (
 
 	"github.com/turistikrota/service.account/protos/account"
 	"github.com/turistikrota/service.account/src/app/query"
+	accountRepo "github.com/turistikrota/service.account/src/domain/account"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (s Server) GetAccountListByIds(ctx context.Context, req *account.GetAccountListByIdsRequest) (*account.AccountListByIdsResult, error) {
+	users := make([]accountRepo.UserUnique, len(req.Users))
+	for i, user := range req.Users {
+		users[i] = accountRepo.UserUnique{
+			UUID: user.Uuid,
+			Name: user.Name,
+		}
+	}
 	res, err := s.app.Queries.AccountListByIds.Handle(ctx, query.AccountListByIdsQuery{
-		UUIDs: req.Uuids,
+		Users: users,
 	})
 	if err != nil {
 		return nil, err

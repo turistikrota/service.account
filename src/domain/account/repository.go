@@ -7,8 +7,8 @@ import (
 )
 
 type UserUnique struct {
-	UUID string
-	Name string
+	UUID string `json:"uuid"`
+	Name string `json:"name"`
 }
 
 type Repository interface {
@@ -24,5 +24,5 @@ type Repository interface {
 	Enable(ctx context.Context, u UserUnique) *i18np.Error
 	Delete(ctx context.Context, u UserUnique) *i18np.Error
 	ListMy(ctx context.Context, userUUID string) ([]*Entity, *i18np.Error)
-	ListByIds(ctx context.Context, ids []string) ([]*Entity, *i18np.Error)
+	ListByUniques(ctx context.Context, ids []UserUnique) ([]*Entity, *i18np.Error)
 }
