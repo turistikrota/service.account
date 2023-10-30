@@ -28,6 +28,11 @@ message EntitySocial {
   string fixed_value = 3;
 }
 
+message UserUnique {
+  string uuid = 1;
+  string name = 2;
+ }
+
 message AccountListByIdsResult {
   repeated Entity entities = 1;
 }
@@ -37,5 +42,5 @@ service AccountService {
 }
 
 message GetAccountListByIdsRequest {
-  repeated string uuids = 1;
+  repeated UserUnique users = 1;
 }

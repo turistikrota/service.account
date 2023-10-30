@@ -214,10 +214,19 @@ func (r *repo) ListMy(ctx context.Context, userUUID string) ([]*account.Entity, 
 	return r.helper.GetListFilterTransform(ctx, filter, transformer)
 }
 
-func (r *repo) ListByIds(ctx context.Context, ids []string) ([]*account.Entity, *i18np.Error) {
+func (r *repo) ListByUniques(ctx context.Context, users []account.UserUnique) ([]*account.Entity, *i18np.Error) {
+	ids := make([]string, len(users))
+	names := make([]string, len(users))
+	for i, u := range users {
+		ids[i] = u.UUID
+		names[i] = u.Name
+	}
 	filter := bson.M{
 		entity.Fields.UserUUID: bson.M{
 			"$in": ids,
+		},
+		entity.Fields.UserName: bson.M{
+			"$in": names,
 		},
 	}
 	transformer := func(acc *entity.MongoAccount) *account.Entity {
