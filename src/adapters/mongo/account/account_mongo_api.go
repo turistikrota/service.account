@@ -7,6 +7,7 @@ import (
 	"github.com/mixarchitecture/i18np"
 	"github.com/turistikrota/service.account/src/adapters/mongo/account/entity"
 	"github.com/turistikrota/service.account/src/domain/account"
+	"github.com/turistikrota/service.shared/db/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -206,6 +207,22 @@ func (r *repo) ListMy(ctx context.Context, userUUID string) ([]*account.Entity, 
 		entity.Fields.UserUUID: userUUID,
 		entity.Fields.IsDeleted: bson.M{
 			"$ne": true,
+		},
+	}
+	transformer := func(acc *entity.MongoAccount) *account.Entity {
+		return acc.ToEntity()
+	}
+	return r.helper.GetListFilterTransform(ctx, filter, transformer)
+}
+
+func (r *repo) ListByIds(ctx context.Context, ids []string) ([]*account.Entity, *i18np.Error) {
+	oids, err := mongo.TransformIds(ids)
+	if err != nil {
+		return nil, i18np.NewError(err.Error())
+	}
+	filter := bson.M{
+		"_id": bson.M{
+			"$in": oids,
 		},
 	}
 	transformer := func(acc *entity.MongoAccount) *account.Entity {

@@ -24,4 +24,5 @@ type Repository interface {
 	Enable(ctx context.Context, u UserUnique) *i18np.Error
 	Delete(ctx context.Context, u UserUnique) *i18np.Error
 	ListMy(ctx context.Context, userUUID string) ([]*Entity, *i18np.Error)
+	ListByIds(ctx context.Context, ids []string) ([]*Entity, *i18np.Error)
 }

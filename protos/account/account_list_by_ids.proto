@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package account;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/turistikrota/service.account/protos/account";
+
+message Entity {
+  string uuid = 1;
+  string user_uuid = 2;
+  string user_name = 3;
+  string full_name = 4;
+  string description = 5;
+  repeated EntitySocial social = 6;
+  bool is_active = 7;
+  int32 completed_rate = 8;
+  bool is_deleted = 9;
+  bool is_verified = 10;
+  google.protobuf.Timestamp birth_date = 11;
+  google.protobuf.Timestamp created_at = 12;
+  google.protobuf.Timestamp updated_at = 13;
+}
+
+message EntitySocial {
+  string platform = 1;
+  string value = 2;
+  string fixed_value = 3;
+}
+
+message AccountListByIdsResult {
+  repeated Entity entities = 1;
+}
+
+service AccountService {
+  rpc GetAccountListByIds (GetAccountListByIdsRequest) returns (AccountListByIdsResult);
+}
+
+message GetAccountListByIdsRequest {
+  repeated string uuids = 1;
+}

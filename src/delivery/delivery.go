@@ -5,16 +5,20 @@ import (
 
 	"github.com/turistikrota/service.shared/auth/session"
 	"github.com/turistikrota/service.shared/auth/token"
+	"google.golang.org/grpc"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/mixarchitecture/i18np"
 	"github.com/mixarchitecture/microp/events"
 	sharedHttp "github.com/mixarchitecture/microp/server/http"
+	sharedRpc "github.com/mixarchitecture/microp/server/rpc"
 	"github.com/mixarchitecture/microp/validator"
+	"github.com/turistikrota/service.account/protos/account"
 	"github.com/turistikrota/service.account/src/app"
 	"github.com/turistikrota/service.account/src/config"
 	"github.com/turistikrota/service.account/src/delivery/event_stream"
 	"github.com/turistikrota/service.account/src/delivery/http"
+	"github.com/turistikrota/service.account/src/delivery/rpc"
 )
 
 type Delivery interface {
@@ -57,6 +61,7 @@ func New(config Config) Delivery {
 }
 
 func (d *delivery) Load() {
+	go d.loadRPC()
 	d.loadEventStream().loadHTTP()
 }
 
@@ -91,5 +96,13 @@ func (d *delivery) loadEventStream() *delivery {
 		panic(err)
 	}
 	eventStream.Load()
+	return d
+}
+
+func (d *delivery) loadRPC() *delivery {
+	sharedRpc.RunServer(50051, func(server *grpc.Server) {
+		svc := rpc.New(d.app, *d.i18n)
+		account.RegisterAccountServiceServer(server, svc)
+	})
 	return d
 }
