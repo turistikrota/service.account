@@ -25,16 +25,17 @@ jobs:
           HOST_ALIAS: ${{ secrets.HOST_ALIAS }}
           REDIS_HOST_ALIAS: ${{ secrets.REDIS_HOST_ALIAS }}
           HOST_IP: ${{ secrets.HOST_IP }}
+          GRPC_PORT: ${{ secrets.GRPC_PORT }}
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          envs: DIR,TOKEN,USER,IMAGE_NAME,CONTAINER_NAME,NETWORK_NAME,SECRET_NAME_1,SECRET_NAME_2,APP_PORT,HOST_ALIAS,HOST_IP,REDIS_HOST_ALIAS
+          envs: DIR,TOKEN,USER,IMAGE_NAME,CONTAINER_NAME,NETWORK_NAME,SECRET_NAME_1,SECRET_NAME_2,APP_PORT,HOST_ALIAS,HOST_IP,REDIS_HOST_ALIAS,GRPC_PORT
           script: |
             cd $DIR
             git checkout main
             git pull origin main
             docker build --build-arg GITHUB_TOKEN=$TOKEN --build-arg GITHUB_USER=$USER -t $IMAGE_NAME .
             docker service rm $CONTAINER_NAME
-            docker service create --name $CONTAINER_NAME --network $NETWORK_NAME --secret $SECRET_NAME_1 --secret $SECRET_NAME_2 --env-file .env --host $HOST_ALIAS:$HOST_IP --host $REDIS_HOST_ALIAS:$HOST_IP --publish $APP_PORT:$APP_PORT $IMAGE_NAME
+            docker service create --name $CONTAINER_NAME --network $NETWORK_NAME --secret $SECRET_NAME_1 --secret $SECRET_NAME_2 --env-file .env --host $HOST_ALIAS:$HOST_IP --host $REDIS_HOST_ALIAS:$HOST_IP --publish $APP_PORT:$APP_PORT  --publish $GRPC_PORT:$GRPC_PORT $IMAGE_NAME
