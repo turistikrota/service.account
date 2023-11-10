@@ -85,3 +85,5 @@ error_account_not_found = "Hesap bulunamadı."
 get_query_failed = "Veriler getirilirken bir hata oluştu."
 update_query_not_found = "Güncellenecek veri bulunamadı."
 update_query_failed = "Veri güncellenirken bir hata oluştu."
+
+user_expired = "Kullanıcı süresi doldu."
