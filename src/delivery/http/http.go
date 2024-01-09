@@ -161,7 +161,6 @@ func (h Server) adminRoute(extra ...string) fiber.Handler {
 
 func (h Server) cors() fiber.Handler {
 	return cors.New(cors.Config{
-		AllowOrigins:     h.httpHeaders.AllowedOrigins,
 		AllowMethods:     h.httpHeaders.AllowedMethods,
 		AllowHeaders:     h.httpHeaders.AllowedHeaders,
 		AllowCredentials: h.httpHeaders.AllowCredentials,
