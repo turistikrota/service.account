@@ -10,7 +10,7 @@ import (
 
 type AccountDisableCmd struct {
 	UserUUID string `params:"-"`
-	UserName string `params:"userName" validate:"required,username"`
+	UserName string `params:"-"`
 }
 
 type AccountDisableRes struct{}

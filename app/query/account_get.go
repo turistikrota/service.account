@@ -10,7 +10,7 @@ import (
 
 type AccountGetQuery struct {
 	UserUUID string `params:"-"`
-	UserName string `param:"userName" validate:"required,username"`
+	UserName string `params:"-"`
 }
 
 type AccountGetResult struct {

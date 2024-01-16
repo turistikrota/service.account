@@ -9,7 +9,7 @@ import (
 )
 
 type AccountProfileViewQuery struct {
-	UserName string `param:"userName" validate:"required,username"`
+	UserName string `params:"userName" validate:"required,username"`
 }
 
 type AccountProfileViewResult struct {

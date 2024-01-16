@@ -6,6 +6,8 @@ type ListDto struct{}
 
 type ProfileDto struct{}
 
+type AdminListDto struct{}
+
 func (e *Entity) ToDetail() DetailDto {
 	return DetailDto{}
 }
@@ -16,4 +18,8 @@ func (e *Entity) ToList() ListDto {
 
 func (e *Entity) ToProfile() ProfileDto {
 	return ProfileDto{}
+}
+
+func (e *Entity) ToAdminList() AdminListDto {
+	return AdminListDto{}
 }
