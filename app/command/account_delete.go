@@ -9,8 +9,7 @@ import (
 )
 
 type AccountDeleteCmd struct {
-	UserUUID string `params:"-"`
-	UserName string `params:"-"`
+	UserName string `params:"userName" validate:"required,username"`
 }
 
 type AccountDeleteRes struct{}
@@ -19,15 +18,16 @@ type AccountDeleteHandler cqrs.HandlerFunc[AccountDeleteCmd, *AccountDeleteRes]
 
 func NewAccountDeleteHandler(repo account.Repo, events account.Events) AccountDeleteHandler {
 	return func(ctx context.Context, cmd AccountDeleteCmd) (*AccountDeleteRes, *i18np.Error) {
-		err := repo.Delete(ctx, account.UserUnique{
-			UUID: cmd.UserUUID,
-			Name: cmd.UserName,
-		})
+		res, err := repo.GetByName(ctx, cmd.UserName)
+		if err != nil {
+			return nil, err
+		}
+		err = repo.Delete(ctx, cmd.UserName)
 		if err != nil {
 			return nil, err
 		}
 		events.Deleted(account.UserUnique{
-			UUID: cmd.UserUUID,
+			UUID: res.UserUUID,
 			Name: cmd.UserName,
 		})
 		return &AccountDeleteRes{}, nil

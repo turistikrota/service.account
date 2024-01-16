@@ -33,6 +33,7 @@ func NewApplication(config Config) app.Application {
 			AccountUpdate:  command.NewAccountUpdateHandler(accountFactory, accountRepo, accountEvents),
 			AccountEnable:  command.NewAccountEnableHandler(accountRepo, accountEvents),
 			AccountDisable: command.NewAccountDisableHandler(accountRepo, accountEvents),
+			AccountRestore: command.NewAccountRestoreHandler(accountRepo, accountEvents),
 		},
 		Queries: app.Queries{
 			AccountFilter:      query.NewAccountFilterHandler(accountRepo),
@@ -40,6 +41,8 @@ func NewApplication(config Config) app.Application {
 			AccountProfileView: query.NewAccountProfileViewHandler(accountRepo),
 			AccountListMy:      query.NewAccountListMyHandler(accountRepo),
 			AccountListByIds:   query.NewAccountListByIdsHandler(accountRepo),
+			AccountGetByName:   query.NewAccountGetByNameHandler(accountRepo),
+			AccountListByUser:  query.NewAccountListByUserHandler(accountRepo),
 		},
 	}
 }

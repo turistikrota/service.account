@@ -67,30 +67,16 @@ type Session struct {
 }
 
 type Topics struct {
-	Account  AccountEvents
-	Platform PlatformEvents
+	Account AccountEvents
 }
 
 type AccountEvents struct {
-	Deleted       string `env:"STREAMING_TOPIC_ACCOUNT_DELETED"`
-	Created       string `env:"STREAMING_TOPIC_ACCOUNT_CREATED"`
-	Updated       string `env:"STREAMING_TOPIC_ACCOUNT_UPDATED"`
-	Disabled      string `env:"STREAMING_TOPIC_ACCOUNT_DISABLED"`
-	Enabled       string `env:"STREAMING_TOPIC_ACCOUNT_ENABLED"`
-	SocialAdded   string `env:"STREAMING_TOPIC_ACCOUNT_SOCIAL_ADDED"`
-	SocialUpdated string `env:"STREAMING_TOPIC_ACCOUNT_SOCIAL_UPDATED"`
-	SocialRemoved string `env:"STREAMING_TOPIC_ACCOUNT_SOCIAL_REMOVED"`
-}
-
-type PlatformEvents struct {
-	Created            string `env:"STREAMING_TOPIC_PLATFORM_CREATED"`
-	Updated            string `env:"STREAMING_TOPIC_PLATFORM_UPDATED"`
-	Deleted            string `env:"STREAMING_TOPIC_PLATFORM_DELETED"`
-	Disabled           string `env:"STREAMING_TOPIC_PLATFORM_DISABLED"`
-	Enabled            string `env:"STREAMING_TOPIC_PLATFORM_ENABLED"`
-	TranslationCreated string `env:"STREAMING_TOPIC_PLATFORM_TRANSLATION_CREATED"`
-	TranslationUpdated string `env:"STREAMING_TOPIC_PLATFORM_TRANSLATION_UPDATED"`
-	TranslationRemoved string `env:"STREAMING_TOPIC_PLATFORM_TRANSLATION_REMOVED"`
+	Deleted  string `env:"STREAMING_TOPIC_ACCOUNT_DELETED"`
+	Created  string `env:"STREAMING_TOPIC_ACCOUNT_CREATED"`
+	Updated  string `env:"STREAMING_TOPIC_ACCOUNT_UPDATED"`
+	Disabled string `env:"STREAMING_TOPIC_ACCOUNT_DISABLED"`
+	Restored string `env:"STREAMING_TOPIC_ACCOUNT_RESTORED"`
+	Enabled  string `env:"STREAMING_TOPIC_ACCOUNT_ENABLED"`
 }
 
 type Nats struct {

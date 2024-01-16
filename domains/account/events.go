@@ -9,6 +9,7 @@ import (
 
 type Events interface {
 	Deleted(user UserUnique)
+	Restored(user UserUnique)
 	Created(user UserUnique)
 	Disabled(user UserUnique)
 	Enabled(user UserUnique)
@@ -17,6 +18,10 @@ type Events interface {
 
 type (
 	EventDeleted struct {
+		UserUUID    string `json:"user_uuid"`
+		AccountName string `json:"name"`
+	}
+	EventRestored struct {
 		UserUUID    string `json:"user_uuid"`
 		AccountName string `json:"name"`
 	}
@@ -59,6 +64,13 @@ func NewEvents(config EventConfig) Events {
 
 func (e *accountEvents) Deleted(user UserUnique) {
 	_ = e.publisher.Publish(e.topics.Account.Deleted, &EventDeleted{
+		UserUUID:    user.UUID,
+		AccountName: user.Name,
+	})
+}
+
+func (e *accountEvents) Restored(user UserUnique) {
+	_ = e.publisher.Publish(e.topics.Account.Restored, &EventRestored{
 		UserUUID:    user.UUID,
 		AccountName: user.Name,
 	})

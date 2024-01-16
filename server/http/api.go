@@ -17,9 +17,20 @@ import (
 
 func (h srv) AccountDelete(ctx *fiber.Ctx) error {
 	cmd := command.AccountDeleteCmd{}
-	cmd.UserName = current_account.Parse(ctx).Name
-	cmd.UserUUID = current_user.Parse(ctx).UUID
+	h.parseParams(ctx, &cmd)
 	res, err := h.app.Commands.AccountDelete(ctx.Context(), cmd)
+	if err != nil {
+		l, a := i18n.GetLanguagesInContext(*h.i18n, ctx)
+		return result.Error(h.i18n.TranslateFromError(*err, l, a))
+
+	}
+	return result.SuccessDetail(Messages.Success.Ok, res)
+}
+
+func (h srv) AccountRestore(ctx *fiber.Ctx) error {
+	cmd := command.AccountRestoreCmd{}
+	h.parseParams(ctx, &cmd)
+	res, err := h.app.Commands.AccountRestore(ctx.Context(), cmd)
 	if err != nil {
 		l, a := i18n.GetLanguagesInContext(*h.i18n, ctx)
 		return result.Error(h.i18n.TranslateFromError(*err, l, a))
@@ -98,16 +109,26 @@ func (h srv) AccountFilter(ctx *fiber.Ctx) error {
 	return result.SuccessDetail(Messages.Success.Ok, res.List)
 }
 
-func (h srv) AccountGet(ctx *fiber.Ctx) error {
-	query := query.AccountGetQuery{}
-	query.UserUUID = current_user.Parse(ctx).UUID
-	query.UserName = current_account.Parse(ctx).Name
-	res, err := h.app.Queries.AccountGet(ctx.UserContext(), query)
+func (h srv) AccountGetByName(ctx *fiber.Ctx) error {
+	query := query.AccountGetByNameQuery{}
+	h.parseParams(ctx, &query)
+	res, err := h.app.Queries.AccountGetByName(ctx.UserContext(), query)
 	if err != nil {
 		l, a := i18n.GetLanguagesInContext(*h.i18n, ctx)
 		return result.ErrorDetail(h.i18n.TranslateFromError(*err, l, a), res)
 	}
 	return result.SuccessDetail(Messages.Success.Ok, res.Dto)
+}
+
+func (h srv) AccountListByUser(ctx *fiber.Ctx) error {
+	query := query.AccountListByUserQuery{}
+	h.parseParams(ctx, &query)
+	res, err := h.app.Queries.AccountListByUser(ctx.UserContext(), query)
+	if err != nil {
+		l, a := i18n.GetLanguagesInContext(*h.i18n, ctx)
+		return result.ErrorDetail(h.i18n.TranslateFromError(*err, l, a), res)
+	}
+	return result.SuccessDetail(Messages.Success.Ok, res.Dtos)
 }
 
 func (h srv) AccountListMy(ctx *fiber.Ctx) error {

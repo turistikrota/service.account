@@ -26,9 +26,12 @@ type Repo interface {
 	Update(ctx context.Context, u UserUnique, account *Entity) *i18np.Error
 	Disable(ctx context.Context, u UserUnique) *i18np.Error
 	Enable(ctx context.Context, u UserUnique) *i18np.Error
-	Delete(ctx context.Context, u UserUnique) *i18np.Error
+	Delete(ctx context.Context, name string) *i18np.Error
+	Restore(ctx context.Context, name string) *i18np.Error
+	GetByName(ctx context.Context, name string) (*Entity, *i18np.Error)
 	ListMy(ctx context.Context, userUUID string) ([]*Entity, *i18np.Error)
 	ListByUniques(ctx context.Context, ids []UserUnique) ([]*Entity, *i18np.Error)
+	ListByUserId(ctx context.Context, userUUID string) ([]*Entity, *i18np.Error)
 	Filter(ctx context.Context, filter FilterEntity, listConfig list.Config) (*list.Result[*Entity], *i18np.Error)
 }
 
@@ -88,6 +91,23 @@ func (r *repo) Get(ctx context.Context, u UserUnique) (*Entity, *i18np.Error) {
 	filter := bson.M{
 		fields.UserUUID: u.UUID,
 		fields.UserName: u.Name,
+		fields.IsDeleted: bson.M{
+			"$ne": true,
+		},
+	}
+	o, exist, err := r.helper.GetFilter(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+	if !exist {
+		return nil, r.factory.Errors.NotFound()
+	}
+	return *o, nil
+}
+
+func (r *repo) GetByName(ctx context.Context, name string) (*Entity, *i18np.Error) {
+	filter := bson.M{
+		fields.UserName: name,
 		fields.IsDeleted: bson.M{
 			"$ne": true,
 		},
@@ -165,10 +185,9 @@ func (r *repo) Enable(ctx context.Context, u UserUnique) *i18np.Error {
 	return r.helper.UpdateOne(ctx, filter, setter)
 }
 
-func (r *repo) Delete(ctx context.Context, u UserUnique) *i18np.Error {
+func (r *repo) Delete(ctx context.Context, name string) *i18np.Error {
 	filter := bson.M{
-		fields.UserUUID: u.UUID,
-		fields.UserName: u.Name,
+		fields.UserName: name,
 		fields.IsDeleted: bson.M{
 			"$ne": true,
 		},
@@ -176,6 +195,20 @@ func (r *repo) Delete(ctx context.Context, u UserUnique) *i18np.Error {
 	setter := bson.M{
 		"$set": bson.M{
 			fields.IsDeleted: true,
+			fields.UpdatedAt: time.Now(),
+		},
+	}
+	return r.helper.UpdateOne(ctx, filter, setter)
+}
+
+func (r *repo) Restore(ctx context.Context, name string) *i18np.Error {
+	filter := bson.M{
+		fields.UserName:  name,
+		fields.IsDeleted: true,
+	}
+	setter := bson.M{
+		"$set": bson.M{
+			fields.IsDeleted: false,
 			fields.UpdatedAt: time.Now(),
 		},
 	}
@@ -206,6 +239,13 @@ func (r *repo) ListByUniques(ctx context.Context, users []UserUnique) ([]*Entity
 		fields.UserName: bson.M{
 			"$in": names,
 		},
+	}
+	return r.helper.GetListFilter(ctx, filter)
+}
+
+func (r *repo) ListByUserId(ctx context.Context, userUUID string) ([]*Entity, *i18np.Error) {
+	filter := bson.M{
+		fields.UserUUID: userUUID,
 	}
 	return r.helper.GetListFilter(ctx, filter)
 }

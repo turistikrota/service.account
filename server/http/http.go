@@ -64,6 +64,28 @@ func (h srv) Listen() error {
 		I18n:        h.i18n,
 		AcceptLangs: []string{},
 		CreateHandler: func(router fiber.Router) fiber.Router {
+			router.Use(h.cors(), h.deviceUUID())
+
+			// admin
+			admin := router.Group("/admin", h.currentUserAccess(), h.requiredAccess())
+			admin.Get("/", h.adminRoute(config.Roles.Account.Super, config.Roles.Account.List), h.wrapWithTimeout(h.AccountFilter))
+			admin.Get("/by-user/:uuid", h.adminRoute(config.Roles.Account.Super, config.Roles.Account.List), h.wrapWithTimeout(h.AccountListByUser))
+			admin.Get("/:userName", h.adminRoute(config.Roles.Account.Super, config.Roles.Account.View), h.wrapWithTimeout(h.AccountGetByName))
+			admin.Patch("/:userName/restore", h.adminRoute(config.Roles.Account.Super, config.Roles.Account.Restore), h.wrapWithTimeout(h.AccountRestore))
+			admin.Delete("/:userName", h.adminRoute(config.Roles.Account.Super, config.Roles.Account.Delete), h.wrapWithTimeout(h.AccountDelete))
+
+			// account
+			router.Post("/", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountCreate))
+			router.Get("/", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountListMy))
+			router.Get("/selected", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.AccountGetSelected))
+			router.Patch("/enable", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.AccountEnable))
+			router.Patch("/disable", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.AccountDisable))
+			router.Put("/", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.AccountUpdate))
+			router.Patch("/@:userName/select", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.AccountSelect))
+
+			// public
+			router.Get("/@:userName", h.rateLimit(), h.wrapWithTimeout(h.AccountProfileView))
+
 			return router
 		},
 	}))
@@ -71,10 +93,6 @@ func (h srv) Listen() error {
 
 func (h srv) currentAccountAccess() fiber.Handler {
 	return current_account.New(current_account.Config{})
-}
-
-func (h srv) safeCurrentAccountAccess() fiber.Handler {
-	return current_account.NewSafe(current_account.Config{})
 }
 
 func (h srv) parseBody(c *fiber.Ctx, d interface{}) {

@@ -20,6 +20,10 @@ type DetailDto struct {
 	UpdatedAt     *time.Time `json:"updatedAt"`
 }
 
+type AdminDetailDto struct {
+	*Entity
+}
+
 type ListDto struct {
 	UserName      string     `json:"userName"`
 	FullName      string     `json:"fullName"`
@@ -103,5 +107,11 @@ func (e *Entity) ToAdminList() AdminListDto {
 		CompletedRate: e.CompletedRate,
 		IsVerified:    e.IsVerified,
 		CreatedAt:     e.CreatedAt,
+	}
+}
+
+func (e *Entity) ToAdminDetail() AdminDetailDto {
+	return AdminDetailDto{
+		Entity: e,
 	}
 }
