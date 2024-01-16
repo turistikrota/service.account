@@ -43,5 +43,5 @@ func (e *accountErrors) Failed(action string) *i18np.Error {
 }
 
 func (e *accountErrors) NotFound() *i18np.Error {
-	return i18np.NewError(I18nMessages.AccountNotFound)
+	return i18np.NewError(I18nMessages.AccountNotFound, i18np.P{"notFound": true})
 }

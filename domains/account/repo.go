@@ -108,9 +108,6 @@ func (r *repo) Get(ctx context.Context, u UserUnique) (*Entity, *i18np.Error) {
 func (r *repo) GetByName(ctx context.Context, name string) (*Entity, *i18np.Error) {
 	filter := bson.M{
 		fields.UserName: name,
-		fields.IsDeleted: bson.M{
-			"$ne": true,
-		},
 	}
 	o, exist, err := r.helper.GetFilter(ctx, filter)
 	if err != nil {

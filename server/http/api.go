@@ -147,20 +147,21 @@ func (h srv) AccountProfileView(ctx *fiber.Ctx) error {
 	res, err := h.app.Queries.AccountProfileView(ctx.UserContext(), query)
 	if err != nil {
 		l, a := i18n.GetLanguagesInContext(*h.i18n, ctx)
-		return result.ErrorDetail(h.i18n.TranslateFromError(*err, l, a), res)
+		return result.ErrorDetail(h.i18n.TranslateFromError(*err, l, a), err.Params)
 	}
 	return result.SuccessDetail(Messages.Success.Ok, res.Dto)
 }
 
 func (h srv) AccountSelect(ctx *fiber.Ctx) error {
 	q := query.AccountDetailQuery{}
-	h.parseParams(ctx, q)
+	h.parseParams(ctx, &q)
 	query := query.AccountGetQuery{}
 	query.UserName = q.UserName
 	query.UserUUID = current_user.Parse(ctx).UUID
 	res, err := h.app.Queries.AccountGet(ctx.UserContext(), query)
 	if err != nil {
-		return err
+		l, a := i18n.GetLanguagesInContext(*h.i18n, ctx)
+		return result.ErrorDetail(h.i18n.TranslateFromError(*err, l, a), res)
 	}
 	ctx.Cookie(h.CreateServerSideCookie(".s.a.u", res.Dto.UserName))
 	return result.Success(Messages.Success.Ok)
