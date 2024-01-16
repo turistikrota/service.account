@@ -9,7 +9,7 @@ import (
 )
 
 type AccountCreateCmd struct {
-	UserUUID string `params:"-"`
+	UserUUID string `json:"-"`
 	UserName string `json:"userName" validate:"required,username,max=20,min=3"`
 }
 

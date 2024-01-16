@@ -5,6 +5,7 @@ import "github.com/cilloparch/cillop/i18np"
 type Errors interface {
 	UserNameRequired() *i18np.Error
 	ErrAlreadyExist() *i18np.Error
+	ErrInvalidDate() *i18np.Error
 	MinAge(age int) *i18np.Error
 	MaxAge(age int) *i18np.Error
 	Failed(action string) *i18np.Error
@@ -23,6 +24,10 @@ func (e *accountErrors) UserNameRequired() *i18np.Error {
 
 func (e *accountErrors) ErrAlreadyExist() *i18np.Error {
 	return i18np.NewError(I18nMessages.AccountAlreadyExist)
+}
+
+func (e *accountErrors) ErrInvalidDate() *i18np.Error {
+	return i18np.NewError(I18nMessages.AccountInvalidDate)
 }
 
 func (e *accountErrors) MinAge(age int) *i18np.Error {
