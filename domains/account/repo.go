@@ -20,7 +20,7 @@ type UserUnique struct {
 
 type Repo interface {
 	Create(ctx context.Context, account *Entity) (*Entity, *i18np.Error)
-	ProfileView(ctx context.Context, u UserUnique) (*Entity, *i18np.Error)
+	ProfileView(ctx context.Context, name string) (*Entity, *i18np.Error)
 	Get(ctx context.Context, u UserUnique) (*Entity, *i18np.Error)
 	Exist(ctx context.Context, u UserUnique) (bool, *i18np.Error)
 	Update(ctx context.Context, u UserUnique, account *Entity) *i18np.Error
@@ -59,9 +59,9 @@ func (r *repo) Create(ctx context.Context, e *Entity) (*Entity, *i18np.Error) {
 	return e, nil
 }
 
-func (r *repo) ProfileView(ctx context.Context, u UserUnique) (*Entity, *i18np.Error) {
+func (r *repo) ProfileView(ctx context.Context, name string) (*Entity, *i18np.Error) {
 	filter := bson.M{
-		fields.UserName: u.Name,
+		fields.UserName: name,
 		fields.IsActive: true,
 		fields.IsDeleted: bson.M{
 			"$ne": true,
