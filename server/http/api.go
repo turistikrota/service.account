@@ -10,7 +10,6 @@ import (
 	"github.com/turistikrota/service.account/app/query"
 	"github.com/turistikrota/service.account/domains/account"
 	"github.com/turistikrota/service.account/pkg/utils"
-	"github.com/turistikrota/service.account/src/delivery/http/dto"
 	"github.com/turistikrota/service.shared/server/http/auth/current_account"
 	"github.com/turistikrota/service.shared/server/http/auth/current_user"
 )
@@ -170,7 +169,9 @@ func (h srv) AccountSelect(ctx *fiber.Ctx) error {
 func (h srv) AccountGetSelected(ctx *fiber.Ctx) error {
 	userName := ctx.Cookies(".s.a.u")
 	if userName == "" {
-		return result.ErrorDetail(Messages.Error.RequiredAccountSelect, dto.Response.AccountGetSelectedNotFound())
+		return result.ErrorDetail(Messages.Error.RequiredAccountSelect, map[string]interface{}{
+			"mustSelect": true,
+		})
 	}
 	query := query.AccountGetQuery{}
 	query.UserName = userName
