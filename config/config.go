@@ -10,10 +10,6 @@ type MongoAccount struct {
 	Query      string `env:"MONGO_ACCOUNT_QUERY" envDefault:""`
 }
 
-type MongoPlatform struct {
-	Collection string `env:"MONGO_PLATFORM_COLLECTION" envDefault:"accounts"`
-}
-
 type RSA struct {
 	PrivateKeyFile string `env:"RSA_PRIVATE_KEY"`
 	PublicKeyFile  string `env:"RSA_PUBLIC_KEY"`
@@ -87,8 +83,7 @@ type Nats struct {
 type App struct {
 	Protocol string `env:"PROTOCOL" envDefault:"http"`
 	DB       struct {
-		Account  MongoAccount
-		Platform MongoPlatform
+		Account MongoAccount
 	}
 	RSA         RSA
 	Grpc        Grpc

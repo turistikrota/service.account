@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/cilloparch/cillop/events"
-	"github.com/mixarchitecture/microp/validator"
+	"github.com/cilloparch/cillop/validation"
 	"github.com/turistikrota/service.account/app"
 	"github.com/turistikrota/service.account/app/command"
 	"github.com/turistikrota/service.account/app/query"
@@ -15,7 +15,7 @@ type Config struct {
 	App         config.App
 	EventEngine events.Engine
 	Mongo       *mongo.DB
-	Validator   *validator.Validator
+	Validator   *validation.Validator
 }
 
 func NewApplication(config Config) app.Application {

@@ -1,27 +1,21 @@
 package main
 
 import (
-	"context"
-
-	"github.com/mixarchitecture/microp/validator"
-	"github.com/mixarchitecture/mredis"
+	"github.com/cilloparch/cillop/env"
+	"github.com/cilloparch/cillop/events/nats"
+	"github.com/cilloparch/cillop/i18np"
+	"github.com/cilloparch/cillop/validation"
+	"github.com/turistikrota/service.account/config"
+	"github.com/turistikrota/service.account/server/http"
+	"github.com/turistikrota/service.account/server/rpc"
+	"github.com/turistikrota/service.account/service"
 	"github.com/turistikrota/service.shared/auth/session"
 	"github.com/turistikrota/service.shared/auth/token"
 	"github.com/turistikrota/service.shared/db/mongo"
 	"github.com/turistikrota/service.shared/db/redis"
-
-	"github.com/mixarchitecture/i18np"
-	"github.com/mixarchitecture/microp/env"
-	"github.com/mixarchitecture/microp/events/nats"
-	"github.com/mixarchitecture/microp/logs"
-	"github.com/turistikrota/service.account/src/config"
-	"github.com/turistikrota/service.account/src/delivery"
-	"github.com/turistikrota/service.account/src/service"
 )
 
 func main() {
-	logs.Init()
-	ctx := context.Background()
 	cnf := config.App{}
 	env.Load(&cnf)
 	i18n := i18np.New(cnf.I18n.Fallback)
@@ -30,23 +24,15 @@ func main() {
 		Url:     cnf.Nats.Url,
 		Streams: cnf.Nats.Streams,
 	})
-	valid := validator.New(i18n)
+	valid := validation.New(i18n)
 	valid.ConnectCustom()
 	valid.RegisterTagName()
 	mongo := loadMongo(cnf)
-	cache := mredis.New(&mredis.Config{
-		Host:     cnf.CacheRedis.Host,
-		Port:     cnf.CacheRedis.Port,
-		Password: cnf.CacheRedis.Pw,
-		DB:       cnf.CacheRedis.Db,
-	})
-
 	app := service.NewApplication(service.Config{
 		App:         cnf,
 		EventEngine: eventEngine,
 		Mongo:       mongo,
 		Validator:   valid,
-		CacheSrv:    cache,
 	})
 	r := redis.New(&redis.Config{
 		Host:     cnf.Redis.Host,
@@ -66,17 +52,22 @@ func main() {
 		Topic:       cnf.Session.Topic,
 		Project:     cnf.TokenSrv.Project,
 	})
-	del := delivery.New(delivery.Config{
+	http := http.New(http.Config{
+		Env:         cnf,
 		App:         app,
-		Config:      cnf,
 		I18n:        i18n,
-		Validator:   valid,
-		Ctx:         ctx,
-		EventEngine: eventEngine,
-		SessionSrv:  session.Service,
+		Validator:   *valid,
+		HttpHeaders: cnf.HttpHeaders,
 		TokenSrv:    tknSrv,
+		SessionSrv:  session.Service,
 	})
-	del.Load()
+	rpc := rpc.New(rpc.Config{
+		Port: cnf.Grpc.Port,
+		App:  app,
+		I18n: *i18n,
+	})
+	go rpc.Listen()
+	http.Listen()
 }
 
 func loadMongo(cnf config.App) *mongo.DB {
