@@ -12,20 +12,13 @@ message Entity {
   string user_name = 3;
   string full_name = 4;
   string description = 5;
-  repeated EntitySocial social = 6;
-  bool is_active = 7;
-  int32 completed_rate = 8;
-  bool is_deleted = 9;
-  bool is_verified = 10;
-  google.protobuf.Timestamp birth_date = 11;
-  google.protobuf.Timestamp created_at = 12;
-  google.protobuf.Timestamp updated_at = 13;
-}
-
-message EntitySocial {
-  string platform = 1;
-  string value = 2;
-  string fixed_value = 3;
+  bool is_active = 6;
+  int32 completed_rate = 7;
+  bool is_deleted = 8;
+  bool is_verified = 9;
+  google.protobuf.Timestamp birth_date = 10;
+  google.protobuf.Timestamp created_at = 11;
+  google.protobuf.Timestamp updated_at = 12;
 }
 
 message UserUnique {
