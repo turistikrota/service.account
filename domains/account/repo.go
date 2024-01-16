@@ -23,9 +23,6 @@ type Repo interface {
 	ProfileView(ctx context.Context, u UserUnique) (*Entity, *i18np.Error)
 	Get(ctx context.Context, u UserUnique) (*Entity, *i18np.Error)
 	Exist(ctx context.Context, u UserUnique) (bool, *i18np.Error)
-	SocialAdd(ctx context.Context, u UserUnique, social *EntitySocial) *i18np.Error
-	SocialUpdate(ctx context.Context, u UserUnique, social *EntitySocial) *i18np.Error
-	SocialRemove(ctx context.Context, u UserUnique, platform string) *i18np.Error
 	Update(ctx context.Context, u UserUnique, account *Entity) *i18np.Error
 	Disable(ctx context.Context, u UserUnique) *i18np.Error
 	Enable(ctx context.Context, u UserUnique) *i18np.Error
@@ -74,7 +71,6 @@ func (r *repo) ProfileView(ctx context.Context, u UserUnique) (*Entity, *i18np.E
 		fields.UserName:    1,
 		fields.FullName:    1,
 		fields.Description: 1,
-		fields.Social:      1,
 		fields.IsVerified:  1,
 		fields.CreatedAt:   1,
 	})
@@ -119,61 +115,6 @@ func (r *repo) Exist(ctx context.Context, u UserUnique) (bool, *i18np.Error) {
 		return false, nil
 	}
 	return o != nil, nil
-}
-
-func (r *repo) SocialAdd(ctx context.Context, u UserUnique, social *EntitySocial) *i18np.Error {
-	filter := bson.M{
-		fields.UserUUID: u.UUID,
-		fields.UserName: u.Name,
-	}
-	setter := bson.M{
-		"$addToSet": bson.M{
-			fields.Social: bson.M{
-				socialFields.Platform:   social.Platform,
-				socialFields.Value:      social.Value,
-				socialFields.FixedValue: social.FixedValue,
-			},
-		},
-		"$set": bson.M{
-			fields.UpdatedAt: time.Now(),
-		},
-	}
-	return r.helper.UpdateOne(ctx, filter, setter)
-}
-
-func (r *repo) SocialUpdate(ctx context.Context, u UserUnique, social *EntitySocial) *i18np.Error {
-	filter := bson.M{
-		fields.UserUUID:                    u.UUID,
-		fields.UserName:                    u.Name,
-		socialField(socialFields.Platform): social.Platform,
-	}
-	setter := bson.M{
-		"$set": bson.M{
-			socialFieldInArray(socialFields.Value):      social.Value,
-			socialFieldInArray(socialFields.FixedValue): social.FixedValue,
-			fields.UpdatedAt: time.Now(),
-		},
-	}
-	return r.helper.UpdateOne(ctx, filter, setter)
-}
-
-func (r *repo) SocialRemove(ctx context.Context, u UserUnique, platform string) *i18np.Error {
-	filter := bson.M{
-		fields.UserUUID:                    u.UUID,
-		fields.UserName:                    u.Name,
-		socialField(socialFields.Platform): platform,
-	}
-	setter := bson.M{
-		"$pull": bson.M{
-			fields.Social: bson.M{
-				socialFields.Platform: platform,
-			},
-		},
-		"$set": bson.M{
-			fields.UpdatedAt: time.Now(),
-		},
-	}
-	return r.helper.UpdateOne(ctx, filter, setter)
 }
 
 func (r *repo) Update(ctx context.Context, u UserUnique, account *Entity) *i18np.Error {

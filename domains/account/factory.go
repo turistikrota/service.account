@@ -42,7 +42,7 @@ func (f Factory) New(userUUID string, username string) *Entity {
 
 func (f Factory) CalcCompletedRate(e *Entity) int {
 	var rate int
-	denominatorCount := 5 // 5 field
+	denominatorCount := 4
 	list := []string{e.UserName, e.FullName, e.Description}
 	if e.BirthDate != nil && e.BirthDate.Year() > 0 {
 		rate += 1
@@ -51,9 +51,6 @@ func (f Factory) CalcCompletedRate(e *Entity) int {
 		if v != "" {
 			rate++
 		}
-	}
-	if len(e.Social) > 0 {
-		rate++
 	}
 	return rate * 100 / denominatorCount
 }

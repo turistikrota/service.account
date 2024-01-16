@@ -6,7 +6,6 @@ type fieldsType struct {
 	UserName      string
 	FullName      string
 	Description   string
-	Social        string
 	IsActive      string
 	CompletedRate string
 	IsDeleted     string
@@ -28,7 +27,6 @@ var fields = fieldsType{
 	UserName:      "user_name",
 	FullName:      "full_name",
 	Description:   "description",
-	Social:        "social",
 	IsActive:      "is_active",
 	CompletedRate: "completed_rate",
 	IsDeleted:     "is_deleted",
@@ -36,18 +34,4 @@ var fields = fieldsType{
 	BirthDate:     "birth_date",
 	CreatedAt:     "created_at",
 	UpdatedAt:     "updated_at",
-}
-
-var socialFields = socialFieldsType{
-	Platform:   "platform",
-	Value:      "value",
-	FixedValue: "fixed_value",
-}
-
-func socialField(field string) string {
-	return fields.Social + "." + field
-}
-
-func socialFieldInArray(field string) string {
-	return fields.Social + ".$." + field
 }
