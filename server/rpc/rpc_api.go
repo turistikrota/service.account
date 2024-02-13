@@ -49,7 +49,7 @@ func (s srv) GetAccountListByIds(ctx context.Context, req *protos.GetAccountList
 	}, nil
 }
 
-func (s srv) GetAccountListAsClaim(ctx context.Context, req *protos.AccountListAsClaimRequest) (*protos.AccountListAsClaimResult, error) {
+func (s srv) ListAsClaim(ctx context.Context, req *protos.AccountListAsClaimRequest) (*protos.AccountListAsClaimResult, error) {
 	accounts, err := s.app.Queries.AccountListAsClaim(ctx, query.AccountListAsClaimQuery{
 		UserUUID: req.UserId,
 	})
