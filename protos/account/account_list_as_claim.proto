@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package account;
+
+option go_package = "github.com/turistikrota/service.account/protos/account";
+
+message Account {
+    string id = 1;
+    string name = 2;
+}
+
+message AccountListAsClaimResult {
+    repeated Account accounts = 1;
+}
+
+message AccountListAsClaimRequest {
+    string user_id = 1;
+}
+
+service AccountListService {
+    rpc ListAsClaim(AccountListAsClaimRequest) returns (AccountListAsClaimResult);
+}

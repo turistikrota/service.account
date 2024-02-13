@@ -32,6 +32,7 @@ type Repo interface {
 	ListMy(ctx context.Context, userUUID string) ([]*Entity, *i18np.Error)
 	ListByUniques(ctx context.Context, ids []UserUnique) ([]*Entity, *i18np.Error)
 	ListByUserId(ctx context.Context, userUUID string) ([]*Entity, *i18np.Error)
+	ListAsClaim(ctx context.Context, userUUID string) ([]*Entity, *i18np.Error)
 	Filter(ctx context.Context, filter FilterEntity, listConfig list.Config) (*list.Result[*Entity], *i18np.Error)
 }
 
@@ -243,6 +244,16 @@ func (r *repo) ListByUniques(ctx context.Context, users []UserUnique) ([]*Entity
 func (r *repo) ListByUserId(ctx context.Context, userUUID string) ([]*Entity, *i18np.Error) {
 	filter := bson.M{
 		fields.UserUUID: userUUID,
+	}
+	return r.helper.GetListFilter(ctx, filter)
+}
+
+func (r *repo) ListAsClaim(ctx context.Context, userUUID string) ([]*Entity, *i18np.Error) {
+	filter := bson.M{
+		fields.UserUUID: userUUID,
+		fields.IsDeleted: bson.M{
+			"$ne": true,
+		},
 	}
 	return r.helper.GetListFilter(ctx, filter)
 }
