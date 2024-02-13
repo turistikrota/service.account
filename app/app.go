@@ -27,4 +27,5 @@ type Queries struct {
 	AccountListMy      query.AccountListMyHandler
 	AccountListByIds   query.AccountListByIdsHandler
 	AccountListByUser  query.AccountListByUserHandler
+	AccountListAsClaim query.AccountListAsClaimHandler
 }

@@ -14,6 +14,7 @@ type srv struct {
 	app  app.Application
 	i18n i18np.I18n
 	protos.AccountServiceServer
+	protos.AccountListServiceServer
 }
 
 type Config struct {
@@ -32,6 +33,7 @@ func New(cnf Config) server.Server {
 
 func (s srv) Listen() error {
 	return rpc.RunServer(s.port, func(server *grpc.Server) {
+		protos.RegisterAccountListServiceServer(server, s)
 		protos.RegisterAccountServiceServer(server, s)
 	})
 }

@@ -48,3 +48,22 @@ func (s srv) GetAccountListByIds(ctx context.Context, req *protos.GetAccountList
 		Entities: list,
 	}, nil
 }
+
+func (s srv) GetAccountListAsClaim(ctx context.Context, req *protos.AccountListAsClaimRequest) (*protos.AccountListAsClaimResult, error) {
+	accounts, err := s.app.Queries.AccountListAsClaim(ctx, query.AccountListAsClaimQuery{
+		UserUUID: req.UserId,
+	})
+	if err != nil {
+		return nil, err
+	}
+	list := make([]*protos.Account, len(accounts.Entities))
+	for i, dto := range accounts.Entities {
+		list[i] = &protos.Account{
+			Id:   dto.UUID,
+			Name: dto.UserName,
+		}
+	}
+	return &protos.AccountListAsClaimResult{
+		Accounts: list,
+	}, nil
+}

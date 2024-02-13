@@ -43,6 +43,7 @@ func NewApplication(config Config) app.Application {
 			AccountListByIds:   query.NewAccountListByIdsHandler(accountRepo),
 			AccountGetByName:   query.NewAccountGetByNameHandler(accountRepo),
 			AccountListByUser:  query.NewAccountListByUserHandler(accountRepo),
+			AccountListAsClaim: query.NewAccountListAsClaimHandler(accountRepo),
 		},
 	}
 }
